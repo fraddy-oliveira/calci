@@ -1,0 +1,19 @@
+{
+    "name": "Scientific-Calculator",
+    "version": "0.0.1",
+    "description": "provides interface to perform scientific calculation which are usually with huges numbers",
+    "scripts": {
+        "testing": "NODE_ENV=development mocha $(find test -name '*.js') --timeout 9000 --reporter mochawesome --reporter-options reportDir='testReports',reportFilename=test_reports ",
+        "start": "nodemon index.js"
+    },
+    "author": "Fraddy Oliveira <fraddy071@gmail.com>",
+    "license": "MIT",
+    "private": false,
+    "dependencies": {
+        "chai": "^4.2.0",
+        "chai-as-promised": "^7.1.1",
+        "mocha": "^6.1.4",
+        "mochawesome": "^4.0.0",
+        "nodemon": "^1.19.1"
+    }
+}
