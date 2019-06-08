@@ -7,7 +7,7 @@ calculator.option = {}
 calculator.option['addition_unit'] = 5
 
 let adder = function (a, b, carry) {
-    return (a ? parseInt(a) : 0) + (b ? parseInt(b) : 0) + (carry ? parseInt(carry) : 0)
+    return ((a ? parseInt(a) : 0) + (b ? parseInt(b) : 0) + (carry ? parseInt(carry) : 0)).toString()
 }
 
 let addPadding = function (num, padding_length) {
@@ -38,7 +38,7 @@ let is_input_invalidate = function (num_1, num_2, carry, option) {
     return errors.length > 0 ? errors : false
 }
 
-let stringAdder = function (num_1, num_2, carry, option) {
+let addPositive = function (num_1, num_2, carry, option) {
 
     let result_sum = '', addition_unit = calculator.addition_unit
     num_1 = num_1 ? num_1.toString().trim() : '0'
@@ -60,8 +60,6 @@ let stringAdder = function (num_1, num_2, carry, option) {
     for (let j = 0; j < Math.ceil(num_1.length / addition_unit); j++) {
         let adder_rst = adder(num_1.slice(string_split_lower, string_split_up), num_2.slice(string_split_lower, string_split_up), carry)
 
-        adder_rst = adder_rst.toString()
-
         if (adder_rst.length < addition_unit) {
             adder_rst = addPadding(adder_rst, addition_unit - adder_rst.length)
         }
@@ -78,9 +76,7 @@ let stringAdder = function (num_1, num_2, carry, option) {
         }
     }
 
-    result_sum = carry + result_sum + ''
-
-    result_sum = result_sum.replace(/^0+/g, '')
+    result_sum = (carry + result_sum + '').replace(/^0+/g, '')
 
     result_sum = result_sum ? result_sum : '0'
 
@@ -96,7 +92,7 @@ calculator.add = function (num_1, num_2) {
     if (Array.isArray(num_1)) {
         ret = calculator.add_array(num_1, option)
     } else {
-        ret = stringAdder(num_1, num_2, 0, option)
+        ret = addPositive(num_1, num_2, 0, option)
     }
     return ret
 }
@@ -110,7 +106,7 @@ calculator.add_array = function (num, option) {
     if (Array.isArray(num) && num.length > 0) {
         ret = num[0]
         for (let i = 1; i < num.length; i++) {
-            ret = stringAdder(num[i], ret, 0, option)
+            ret = addPositive(num[i], ret, 0, option)
         }
     }
     return ret
