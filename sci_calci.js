@@ -1,5 +1,11 @@
 let calculator = {}
 
+calculator.debug = false
+calculator.addition_unit = 5
+
+calculator.option = {}
+calculator.option['addition_unit'] = 5
+
 let adder = function (a, b, carry) {
     return (a ? parseInt(a) : 0) + (b ? parseInt(b) : 0) + (carry ? parseInt(carry) : 0)
 }
@@ -25,27 +31,21 @@ let is_input_invalidate = function (num_1, num_2, carry, option) {
         if (!input_datatype.includes(typeof carry))
             errors.push('datatype of carry numbers should be either string or number')
     }
-    if (option && option['adder_unit_count']) {
-        if (!input_datatype.includes(typeof option['adder_unit_count']))
-            errors.push('datatype of adder_unit_count numbers should be either string or number')
+    if (option && option['addition_unit']) {
+        if (!input_datatype.includes(typeof option['addition_unit']))
+            errors.push('datatype of addition_unit numbers should be either string or number')
     }
     return errors.length > 0 ? errors : false
 }
 
 let stringAdder = function (num_1, num_2, carry, option) {
-    let error = []
 
-    if (error = is_input_invalidate(num_1, num_2, carry, option)) {
-        console.log(error.join(','))
-        return ''
-    }
+    let result_sum = '', addition_unit = calculator.addition_unit
+    num_1 = num_1 ? num_1.toString().trim() : '0'
+    num_2 = num_2 ? num_2.toString().trim() : '0'
+    carry = carry ? carry.toString().trim() : '0'
 
-    let result_sum = '', adder_unit_count = 0
-    num_1 = num_1.toString()
-    num_2 = num_2.toString()
-    carry = carry ? carry.toString() : ''
-
-    adder_unit_count = option && option['adder_unit_count'] ? Number(option['adder_unit_count']) : 5
+    addition_unit = option && option['addition_unit'] ? Number(option['addition_unit']) : 5
 
     if (num_1.length > num_2.length) {
         num_2 = addPadding(num_2, num_1.length - num_2.length)
@@ -53,25 +53,25 @@ let stringAdder = function (num_1, num_2, carry, option) {
         num_1 = addPadding(num_1, num_2.length - num_1.length)
     }
 
-    let string_split_up = num_1.length, string_split_lower = num_1.length - adder_unit_count
+    let string_split_up = num_1.length, string_split_lower = num_1.length - addition_unit
 
     string_split_lower = string_split_lower < 0 ? 0 : string_split_lower
 
-    for (let j = 0; j < Math.ceil(num_1.length / adder_unit_count); j++) {
+    for (let j = 0; j < Math.ceil(num_1.length / addition_unit); j++) {
         let adder_rst = adder(num_1.slice(string_split_lower, string_split_up), num_2.slice(string_split_lower, string_split_up), carry)
 
         adder_rst = adder_rst.toString()
 
-        if (adder_rst.length < adder_unit_count) {
-            adder_rst = addPadding(adder_rst, adder_unit_count - adder_rst.length)
+        if (adder_rst.length < addition_unit) {
+            adder_rst = addPadding(adder_rst, addition_unit - adder_rst.length)
         }
 
-        carry = adder_rst.slice(0, adder_rst.length - adder_unit_count)
+        carry = adder_rst.slice(0, adder_rst.length - addition_unit)
 
-        result_sum = adder_rst.slice(adder_rst.length - adder_unit_count, adder_rst.length) + result_sum
+        result_sum = adder_rst.slice(adder_rst.length - addition_unit, adder_rst.length) + result_sum
 
-        string_split_up -= adder_unit_count
-        string_split_lower -= adder_unit_count
+        string_split_up -= addition_unit
+        string_split_lower -= addition_unit
         string_split_lower = string_split_lower < 0 ? 0 : string_split_lower
         if (string_split_up <= 0) {
             break
@@ -82,14 +82,38 @@ let stringAdder = function (num_1, num_2, carry, option) {
 
     result_sum = result_sum.replace(/^0+/g, '')
 
-    return result_sum
+    result_sum = result_sum ? result_sum : '0'
 
+    return result_sum
 }
 
 calculator.add = function (num_1, num_2) {
-    let option = {}
-    option['adder_unit_count'] = 5
-    return stringAdder(num_1, num_2, 0, option)
+
+    let option = calculator.option
+
+    let ret = ''
+
+    if (Array.isArray(num_1)) {
+        ret = calculator.add_array(num_1, option)
+    } else {
+        ret = stringAdder(num_1, num_2, 0, option)
+    }
+    return ret
+}
+
+calculator.add_array = function (num, option) {
+
+    let option = option ? option : calculator.option
+
+    let ret = ''
+
+    if (Array.isArray(num) && num.length > 0) {
+        ret = num[0]
+        for (let i = 1; i < num.length; i++) {
+            ret = stringAdder(num[i], ret, 0, option)
+        }
+    }
+    return ret
 }
 
 module.exports = {
