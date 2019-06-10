@@ -30,7 +30,7 @@ let isPositive = function (num) {
 let normalize = function (num) {
     num = num.toString().trim()
     num = num ? num.replace(/^\++/g, '') : '0'
-    if (calculator.RE_IS_ZERO.test(num)) {
+    if (isZero(num)) {
         return "0";
     }
     var match = calculator.RE_NON_ZERO.exec(num);
@@ -58,6 +58,10 @@ let is_input_invalidate = function (num_1, num_2, carry, option) {
             errors.push('datatype of addition_unit numbers should be either string or number')
     }
     return errors.length > 0 ? errors : false
+}
+
+let isZero = function (num) {
+    return calculator.RE_IS_ZERO.test(num) ? true : false
 }
 
 //  Helpers
@@ -103,7 +107,7 @@ let lt = calculator.lt = function (num_1, num_2) {
     num_1 = normalize(num_1)
     num_2 = normalize(num_2)
     let is_lt = false
-    if (calculator.RE_IS_ZERO.test(num_1) && calculator.RE_IS_ZERO.test(num_2)) {
+    if (isZero(num_1) && isZero(num_2)) {
         is_lt = false
     } else if (isNegative(num_1) && isPositive(num_2)) {
         is_lt = true
@@ -307,6 +311,7 @@ module.exports = {
     'sub': calculator.sub,
     'lt': calculator.lt,
     'test': {
-        'normalize': normalize
+        'normalize': normalize,
+        'isZero': isZero,
     }
 }

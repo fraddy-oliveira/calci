@@ -236,6 +236,26 @@ describe('test internal function', function () {
             sci_calci.isNumber('+0').should.be.equal(true)
         })
     })
+    describe('isZero',function(){
+        it('check for zero #1',function(){
+            sci_calci.test.isZero('23432').should.be.equal(false)
+        })
+        it('check for zero #2',function(){
+            sci_calci.test.isZero('00').should.be.equal(true)
+        })
+        it('check for zero #3',function(){
+            sci_calci.test.isZero('-0000').should.be.equal(true)
+        })
+        it('check for zero #4',function(){
+            sci_calci.test.isZero('+000000').should.be.equal(true)
+        })
+        it('check for zero #5',function(){
+            sci_calci.test.isZero('+435345').should.be.equal(false)
+        })
+        it('check for zero #6',function(){
+            sci_calci.test.isZero('-5675435345').should.be.equal(false)
+        })
+    })
 })
 
 afterEach(function () {
