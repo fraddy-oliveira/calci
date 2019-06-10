@@ -105,6 +105,10 @@ let abs = calculator.abs = function (num) {
     return num.replace(/^([-+]?)/, '')
 }
 
+let eq = calculator.eq = function (num_1, num_2) {
+    return normalize(num_1) === normalize(num_2);
+}
+
 //  Addition
 
 let addPositive = function (num_1, num_2, carry, option) {
