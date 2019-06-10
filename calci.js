@@ -89,14 +89,32 @@ let toggleSign = function (num) {
 
 //  Comparison
 
-let lt = calculator.lt = function (num_1, num_2) {
-    if (num_1.length < num_2.length) {
-        return true
-    } else if (num_1.slice(0, 1) < num_2.slice(0, 1)) {
-        return true
-    } else {
-        return false
+let ltPositive = function (num_1, num_2) {
+    if (isNegative(num_1) || isNegative(num_2)) {
+        throw new Error("Both operands must be positive: " + num_1 + " " + num_2);
     }
+    let maxLength = Math.max(num_1.length, num_2.length);
+    let lhs = addPadding(num_1, maxLength - num_1.length);
+    let rhs = addPadding(num_2, maxLength - num_2.length);
+    return lhs < rhs; // lexicographical comparison
+}
+
+let lt = calculator.lt = function (num_1, num_2) {
+    num_1 = normalize(num_1)
+    num_2 = normalize(num_2)
+    let is_lt = false
+    if (calculator.RE_IS_ZERO.test(num_1) && calculator.RE_IS_ZERO.test(num_2)) {
+        is_lt = false
+    } else if (isNegative(num_1) && isPositive(num_2)) {
+        is_lt = true
+    } else if (isPositive(num_1) && isNegative(num_2)) {
+        is_lt = false
+    } else if (isNegative(num_1) && isNegative(num_2)) {
+        is_lt = ltPositive(abs(num_1), abs(num_2)) ? false : true
+    } else {
+        is_lt = ltPositive(num_1, num_2) ? true : false
+    }
+    return is_lt
 }
 
 let abs = calculator.abs = function (num) {
@@ -267,8 +285,8 @@ calculator.add = function (num_1, num_2) {
 
 calculator.sub = function (num_1, num_2) {
     let ret = ''
-    num_1 = num_1 ? num_1.toString().trim().replace(/^\++/g, '') : '0'
-    num_2 = num_2 ? num_2.toString().trim().replace(/^\++/g, '') : '0'
+    num_1 = normalize(num_1)
+    num_2 = normalize(num_2)
     ret = calculator.add(num_1, toggleSign(num_2))
     return ret
 }
@@ -287,6 +305,7 @@ let add_array = function (num_arr) {
 module.exports = {
     'add': calculator.add,
     'sub': calculator.sub,
+    'lt': calculator.lt,
     'test': {
         'normalize': normalize
     }
