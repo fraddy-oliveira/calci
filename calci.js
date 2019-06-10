@@ -1,22 +1,22 @@
-let calculator = {}
+let calci = {}
 
-calculator.debug = false
-calculator.addition_unit = 5
+calci.debug = false
+calci.addition_unit = 5
 
-calculator.option = {}
-calculator.option['addition_unit'] = 5
+calci.option = {}
+calci.option['addition_unit'] = 5
 
-calculator.operationType = { 'addition': 'add', 'subraction': 'sub' }
+calci.operationType = { 'addition': 'add', 'subraction': 'sub' }
 
-calculator.RE_IS_NUMBER = /^([-+]?)0*([0-9][0-9]*)$/
-calculator.RE_IS_ZERO = /^([-+]?)0+?$/
-calculator.RE_NON_ZERO = /^([+]?)0*([1-9][0-9]*)$/;
+calci.RE_IS_NUMBER = /^([-+]?)0*([0-9][0-9]*)$/
+calci.RE_IS_ZERO = /^([-+]?)0+?$/
+calci.RE_NON_ZERO = /^([+]?)0*([1-9][0-9]*)$/;
 
 //  Validation
 
 let isNumber = function (num) {
     num = normalize(num)
-    return calculator.RE_IS_NUMBER.test(num)
+    return calci.RE_IS_NUMBER.test(num)
 }
 
 let isNegative = function (num) {
@@ -30,10 +30,10 @@ let isPositive = function (num) {
 let normalize = function (num) {
     num = num.toString().trim()
     num = num ? num.replace(/^\++/g, '') : '0'
-    if (calculator.RE_IS_ZERO.exec(num)) {
+    if (calci.RE_IS_ZERO.exec(num)) {
         return "0";
     }
-    var match = calculator.RE_NON_ZERO.exec(num);
+    var match = calci.RE_NON_ZERO.exec(num);
     if (!match) {
         throw new Error("Illegal number : " + num);
     }
@@ -41,7 +41,7 @@ let normalize = function (num) {
 }
 
 let isZero = function (num) {
-    return calculator.RE_IS_ZERO.test(num) ? true : false
+    return calci.RE_IS_ZERO.test(num) ? true : false
 }
 
 //  Helpers
@@ -83,7 +83,7 @@ let ltPositive = function (num_1, num_2) {
     return lhs < rhs; // lexicographical comparison
 }
 
-let lt = calculator.lt = function (num_1, num_2) {
+let lt = calci.lt = function (num_1, num_2) {
     num_1 = normalize(num_1)
     num_2 = normalize(num_2)
     let is_lt = false
@@ -101,11 +101,11 @@ let lt = calculator.lt = function (num_1, num_2) {
     return is_lt
 }
 
-let abs = calculator.abs = function (num) {
+let abs = calci.abs = function (num) {
     return num.replace(/^([-+]?)/, '')
 }
 
-let eq = calculator.eq = function (num_1, num_2) {
+let eq = calci.eq = function (num_1, num_2) {
     return normalize(num_1) === normalize(num_2);
 }
 
@@ -113,7 +113,7 @@ let eq = calculator.eq = function (num_1, num_2) {
 
 let addPositive = function (num_1, num_2, carry, option) {
 
-    let result_sum = '', addition_unit = calculator.addition_unit
+    let result_sum = '', addition_unit = calci.addition_unit
     num_1 = num_1 ? num_1.toString().trim() : '0'
     num_2 = num_2 ? num_2.toString().trim() : '0'
     carry = carry ? carry.toString().trim() : '0'
@@ -158,7 +158,7 @@ let addPositive = function (num_1, num_2, carry, option) {
 
 let subPositive = function (num_1, num_2, option) {
 
-    let result_sum = '', addition_unit = calculator.addition_unit
+    let result_sum = '', addition_unit = calci.addition_unit
     let interchangeNos = false
     num_1 = num_1 ? num_1.toString().trim() : '0'
     num_2 = num_2 ? num_2.toString().trim() : '0'
@@ -239,7 +239,7 @@ let subPositive = function (num_1, num_2, option) {
     return result_sum
 }
 
-calculator.add = function (num_1, num_2) {
+calci.add = function (num_1, num_2) {
     let ret = ''
 
     if (Array.isArray(num_1)) {
@@ -248,12 +248,12 @@ calculator.add = function (num_1, num_2) {
         num_1 = normalize(num_1)
         num_2 = normalize(num_2)
         if (isNegative(num_1) && isNegative(num_2)) {
-            ret = toggleSign(addPositive(toggleSign(num_1), toggleSign(num_2), 0, calculator.option))
+            ret = toggleSign(addPositive(toggleSign(num_1), toggleSign(num_2), 0, calci.option))
         } else if (isPositive(num_1) && isPositive(num_2)) {
-            ret = addPositive(num_1, num_2, 0, calculator.option)
+            ret = addPositive(num_1, num_2, 0, calci.option)
         } else {
             if (isNegative(num_1)) {
-                ret = subPositive(abs(num_1), abs(num_2), calculator.option)
+                ret = subPositive(abs(num_1), abs(num_2), calci.option)
                 if (lt(abs(num_1), abs(num_2))) {
                     ret = ret
                 } else {
@@ -261,9 +261,9 @@ calculator.add = function (num_1, num_2) {
                 }
             } else {
                 if (lt(abs(num_1), abs(num_2))) {
-                    ret = toggleSign(subPositive(abs(num_1), abs(num_2), calculator.option))
+                    ret = toggleSign(subPositive(abs(num_1), abs(num_2), calci.option))
                 } else {
-                    ret = subPositive(abs(num_1), abs(num_2), calculator.option)
+                    ret = subPositive(abs(num_1), abs(num_2), calci.option)
                 }
             }
         }
@@ -271,11 +271,11 @@ calculator.add = function (num_1, num_2) {
     return ret
 }
 
-calculator.sub = function (num_1, num_2) {
+calci.sub = function (num_1, num_2) {
     let ret = ''
     num_1 = normalize(num_1)
     num_2 = normalize(num_2)
-    ret = calculator.add(num_1, toggleSign(num_2))
+    ret = calci.add(num_1, toggleSign(num_2))
     return ret
 }
 
@@ -284,16 +284,16 @@ let add_array = function (num_arr) {
     if (Array.isArray(num_arr) && num_arr.length > 0) {
         ret = num_arr[0]
         for (let i = 1; i < num_arr.length; i++) {
-            ret = calculator.add(num_arr[i], ret)
+            ret = calci.add(num_arr[i], ret)
         }
     }
     return ret
 }
 
 module.exports = {
-    'add': calculator.add,
-    'sub': calculator.sub,
-    'lt': calculator.lt,
+    'add': calci.add,
+    'sub': calci.sub,
+    'lt': calci.lt,
     'test': {
         'normalize': normalize,
         'isZero': isZero,
