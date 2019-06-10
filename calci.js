@@ -110,9 +110,15 @@ let eq = calci.eq = function (num_1, num_2) {
 }
 
 let lte = calci.lte = function (num_1, num_2) {
-    num_1 = normalize(num_1)
-    num_2 = normalize(num_2)
     return lt(num_1, num_2) || eq(num_1, num_2)
+}
+
+let gt = calci.gt = function (num_1, num_2) {
+    return !lt(num_1, num_2)
+}
+
+let gte = calci.gte = function (num_1, num_2) {
+    return gt(num_1, num_2) || eq(num_1, num_2)
 }
 
 //  Addition
