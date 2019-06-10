@@ -8,14 +8,14 @@ calculator.option['addition_unit'] = 5
 
 calculator.operationType = { 'addition': 'add', 'subraction': 'sub' }
 
-calculator.RE_IS_NUMBER = /^([-+]?)\d+?$/
+calculator.RE_IS_NUMBER = /^([-+]?)0*([0-9][0-9]*)$/
 calculator.RE_IS_ZERO = /^([-+]?)0+?$/
-calculator.RE_NON_ZERO = /^([-+]?)0*([1-9][0-9]*)$/;
+calculator.RE_NON_ZERO = /^([+]?)0*([1-9][0-9]*)$/;
 
 //  Validation
 
 let isNumber = function (num) {
-    num = num.toString().trim()
+    num = normalize(num)
     return calculator.RE_IS_NUMBER.test(num)
 }
 
@@ -30,7 +30,7 @@ let isPositive = function (num) {
 let normalize = function (num) {
     num = num.toString().trim()
     num = num ? num.replace(/^\++/g, '') : '0'
-    if (isZero(num)) {
+    if (calculator.RE_IS_ZERO.exec(num)) {
         return "0";
     }
     var match = calculator.RE_NON_ZERO.exec(num);

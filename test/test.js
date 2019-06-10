@@ -159,7 +159,7 @@ describe('test internal function', function () {
             sci_calci.test.toggleSign('000000').should.be.equal('-000000')
         })
     })
-    describe.skip('normalize', function () {
+    describe('normalize', function () {
         it('positive number', function () {
             sci_calci.test.normalize('+12423123 ').should.be.equal('12423123')
         })
