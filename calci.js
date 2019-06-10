@@ -101,7 +101,7 @@ let lt = calci.lt = function (num_1, num_2) {
     return is_lt
 }
 
-let abs = calci.abs = function (num) {
+let abs = function (num) {
     return num.replace(/^([-+]?)/, '')
 }
 
