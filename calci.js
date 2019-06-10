@@ -40,26 +40,6 @@ let normalize = function (num) {
     return match[1] + match[2].replace(/^0+/g, '');
 }
 
-let is_input_invalidate = function (num_1, num_2, carry, option) {
-    let errors = []
-    let input_datatype = ['string', 'number']
-    if (!num_1 || !num_2) {
-        errors.push('input numbers are required')
-    }
-    if (!input_datatype.includes(typeof num_1) || !input_datatype.includes(typeof num_2)) {
-        errors.push('datatype of input numbers should be either string or number')
-    }
-    if (carry) {
-        if (!input_datatype.includes(typeof carry))
-            errors.push('datatype of carry numbers should be either string or number')
-    }
-    if (option && option['addition_unit']) {
-        if (!input_datatype.includes(typeof option['addition_unit']))
-            errors.push('datatype of addition_unit numbers should be either string or number')
-    }
-    return errors.length > 0 ? errors : false
-}
-
 let isZero = function (num) {
     return calculator.RE_IS_ZERO.test(num) ? true : false
 }
