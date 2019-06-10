@@ -33,7 +33,7 @@ let normalize = function (num) {
     if (calci.RE_IS_ZERO.exec(num)) {
         return "0";
     }
-    var match = calci.RE_NON_ZERO.exec(num);
+    var match = calci.RE_IS_NUMBER.exec(num);
     if (!match) {
         throw new Error("Illegal number : " + num);
     }
