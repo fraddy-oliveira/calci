@@ -109,6 +109,12 @@ let eq = calci.eq = function (num_1, num_2) {
     return normalize(num_1) === normalize(num_2);
 }
 
+let lte = calci.lte = function (num_1, num_2) {
+    num_1 = normalize(num_1)
+    num_2 = normalize(num_2)
+    return lt(num_1, num_2) || eq(num_1, num_2)
+}
+
 //  Addition
 
 let addPositive = function (num_1, num_2, carry, option) {
