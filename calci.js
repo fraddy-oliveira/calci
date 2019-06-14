@@ -208,11 +208,6 @@ let subPositive = function (num_1, num_2, option) {
 
     let carry = 0
 
-    // console.log('num_1:'+num_1.length)
-    // console.log('num_2:'+num_2)
-    // console.log('Math.ceil(num_1.length / addition_unit):'+Math.ceil(num_1.length / addition_unit))
-    // console.log('addition_unit:'+addition_unit)
-
     for (let j = 0; j < Math.ceil(num_1.length / addition_unit); j++) {
 
         let unit_1 = num_1.slice(string_split_lower, string_split_up) + ''
@@ -223,8 +218,6 @@ let subPositive = function (num_1, num_2, option) {
             unit_2 = parseInt(unit_2) + carry + ''
             carry = 0
         }
-
-        //console.log('parseInt:' + (parseInt(unit_1) - parseInt(unit_2)))
 
         if ((parseInt(unit_1) - parseInt(unit_2)) < 0) {
             unit_1 = unit_2 + (unit_2 = unit_1, "");
@@ -240,8 +233,6 @@ let subPositive = function (num_1, num_2, option) {
         if (unit_rst.length < addition_unit) {
             unit_rst = addLeftPadding(unit_rst, addition_unit - unit_rst.length)
         }
-
-        //console.log('unit_1:' + unit_1 + '/unit_2:' + unit_2 + '/unit_rst:' + unit_rst + '/carry:' + carry)
 
         result_sum = unit_rst + result_sum
 
@@ -260,7 +251,7 @@ let subPositive = function (num_1, num_2, option) {
     return result_sum
 }
 
-calci.add = function (num_1, num_2) {
+let add = calci.add = function (num_1, num_2) {
     let ret = ''
 
     if (Array.isArray(num_1)) {
@@ -292,11 +283,11 @@ calci.add = function (num_1, num_2) {
     return ret
 }
 
-calci.sub = function (num_1, num_2) {
+let sub = calci.sub = function (num_1, num_2) {
     let ret = ''
     num_1 = normalize(num_1)
     num_2 = normalize(num_2)
-    ret = calci.add(num_1, toggleSign(num_2))
+    ret = add(num_1, toggleSign(num_2))
     return ret
 }
 
@@ -305,7 +296,7 @@ let add_array = function (num_arr) {
     if (Array.isArray(num_arr) && num_arr.length > 0) {
         ret = num_arr[0]
         for (let i = 1; i < num_arr.length; i++) {
-            ret = calci.add(num_arr[i], ret)
+            ret = add(num_arr[i], ret)
         }
     }
     return ret
