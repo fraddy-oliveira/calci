@@ -54,12 +54,21 @@ let subtractor = function (a, b) {
     return ((a ? parseInt(a) : 0) - (b ? parseInt(b) : 0)).toString()
 }
 
-let addPadding = function (num, padding_length) {
+let addPadding = function (num, padding_length, type) {
+    type = type === undefined ? 'left' : type
     let num_string = ''
     for (let i = 0; i < padding_length; i++) {
         num_string += '0'
     }
     return num_string + num
+}
+
+let addLeftPadding = function (num, padding_length) {
+    return addPadding(num, padding_length, 'left')
+}
+
+let addRightPadding = function (num, padding_length) {
+    return addPadding(num, padding_length, 'right')
 }
 
 let toggleSign = function (num) {
@@ -78,8 +87,8 @@ let ltPositive = function (num_1, num_2) {
         throw new Error("Both operands must be positive: " + num_1 + " " + num_2);
     }
     let maxLength = Math.max(num_1.length, num_2.length);
-    let lhs = addPadding(num_1, maxLength - num_1.length);
-    let rhs = addPadding(num_2, maxLength - num_2.length);
+    let lhs = addLeftPadding(num_1, maxLength - num_1.length);
+    let rhs = addLeftPadding(num_2, maxLength - num_2.length);
     return lhs < rhs; // lexicographical comparison
 }
 
@@ -133,9 +142,9 @@ let addPositive = function (num_1, num_2, carry, option) {
     addition_unit = option && option['addition_unit'] ? Number(option['addition_unit']) : addition_unit
 
     if (num_1.length > num_2.length) {
-        num_2 = addPadding(num_2, num_1.length - num_2.length)
+        num_2 = addLeftPadding(num_2, num_1.length - num_2.length)
     } else if (num_1.length < num_2.length) {
-        num_1 = addPadding(num_1, num_2.length - num_1.length)
+        num_1 = addLeftPadding(num_1, num_2.length - num_1.length)
     }
 
     let string_split_up = num_1.length, string_split_lower = num_1.length - addition_unit
@@ -146,7 +155,7 @@ let addPositive = function (num_1, num_2, carry, option) {
         let adder_rst = adder(num_1.slice(string_split_lower, string_split_up), num_2.slice(string_split_lower, string_split_up), carry)
 
         if (adder_rst.length < addition_unit) {
-            adder_rst = addPadding(adder_rst, addition_unit - adder_rst.length)
+            adder_rst = addLeftPadding(adder_rst, addition_unit - adder_rst.length)
         }
 
         carry = adder_rst.slice(0, adder_rst.length - addition_unit)
@@ -188,9 +197,9 @@ let subPositive = function (num_1, num_2, option) {
     }
 
     if (num_1.length > num_2.length) {
-        num_2 = addPadding(num_2, num_1.length - num_2.length)
+        num_2 = addLeftPadding(num_2, num_1.length - num_2.length)
     } else if (num_1.length < num_2.length) {
-        num_1 = addPadding(num_1, num_2.length - num_1.length)
+        num_1 = addLeftPadding(num_1, num_2.length - num_1.length)
     }
 
     let string_split_up = num_1.length, string_split_lower = num_1.length - addition_unit
@@ -225,11 +234,11 @@ let subPositive = function (num_1, num_2, option) {
         unit_rst = subtractor(unit_1, unit_2)
 
         if (carry == 1) {
-            unit_rst = (parseInt('1' + addPadding('', addition_unit)) - parseInt(unit_rst)) + ''
+            unit_rst = (parseInt('1' + addLeftPadding('', addition_unit)) - parseInt(unit_rst)) + ''
         }
 
         if (unit_rst.length < addition_unit) {
-            unit_rst = addPadding(unit_rst, addition_unit - unit_rst.length)
+            unit_rst = addLeftPadding(unit_rst, addition_unit - unit_rst.length)
         }
 
         //console.log('unit_1:' + unit_1 + '/unit_2:' + unit_2 + '/unit_rst:' + unit_rst + '/carry:' + carry)
