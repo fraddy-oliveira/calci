@@ -391,7 +391,10 @@ let mul = calci.mul = function (num_1, num_2) {
     if ((isNegative(num_1) && isNegative(num_2)) || (isPositive(num_1) && isPositive(num_2))) {
         ret = mulPositive(abs(num_1), abs(num_2))
     } else {
-        ret = toggleSign(mulPositive(abs(num_1), abs(num_2)))
+        ret = mulPositive(abs(num_1), abs(num_2))
+        if (!isZero(ret)) {
+            ret = toggleSign(ret)
+        }
     }
     return ret
 }
