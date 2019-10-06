@@ -7,7 +7,7 @@ let expect = chai.expect
 let assert = require('chai').assert, foo = [];
 const { PerformanceObserver, performance } = require('perf_hooks');
 
-let calci = require('../calci')
+let calci = require('../src/calci')
 
 let start_time = null
 
