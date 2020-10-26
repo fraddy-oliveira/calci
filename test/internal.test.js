@@ -9,7 +9,7 @@ const { PerformanceObserver, performance } = require('perf_hooks');
 
 var rewire = require('rewire');
 
-let app_internal = rewire('../calci')
+let app_internal = rewire('../src/calci')
 
 let start_time = null
 
