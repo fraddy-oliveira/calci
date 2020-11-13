@@ -1,31 +1,17 @@
-let calci = {}
+const {RE_IS_NUMBER, RE_IS_ZERO} = require('./patterns');
 
-calci.debug = false
-calci.addition_unit = 5
+const calci = {};
 
-calci.option = {}
-calci.option['addition_unit'] = 5
+calci.additionUnit = 5;
 
-calci.operationType = { 'addition': 'add', 'subraction': 'sub' }
+calci.option = {};
+calci.option.additionUnit = 5;
 
-calci.RE_IS_NUMBER = /^([-+]?)0*([0-9][0-9]*)$/
-calci.RE_IS_ZERO = /^([-+]?)0+?$/
-calci.RE_NON_ZERO = /^([+]?)0*([1-9][0-9]*)$/;
+calci.operationType = {addition: 'add', subraction: 'sub'};
 
-//  Validation
+const isNegative = (num) => num.toString().indexOf('-') === 0;
 
-let isNumber = function (num) {
-    num = num.toString().trim()
-    return calci.RE_IS_NUMBER.test(num)
-}
-
-let isNegative = function (num) {
-    return num.toString().indexOf('-') === 0 ? true : false
-}
-
-let isPositive = function (num) {
-    return !isNegative(num) ? true : false
-}
+const isPositive = (num) => !isNegative(num);
 
 /**
  *    @Name: normalize
@@ -35,373 +21,405 @@ let isPositive = function (num) {
  *    @return string that can used to perform operations.
  */
 
-let normalize = function (num) {
-    num = num.toString().trim()
-    num = num ? num.replace(/^\++/g, '') : '0'
-    if (calci.RE_IS_ZERO.exec(num)) {
-        return "0";
-    }
-    var match = calci.RE_IS_NUMBER.exec(num);
-    if (!match) {
-        throw new Error("Illegal number : " + num);
-    }
-    return match[1] + match[2].replace(/^0+/g, '');
-}
+const normalize = (inputNum) => {
+  let num = inputNum.toString().trim();
+  num = num ? num.replace(/^\++/g, '') : '0';
+  if (RE_IS_ZERO.exec(num)) {
+    return '0';
+  }
+  const match = RE_IS_NUMBER.exec(num);
+  if (!match) {
+    throw new Error(`Illegal number : ${num}`);
+  }
+  return match[1] + match[2].replace(/^0+/g, '');
+};
 
-let isZero = function (num) {
-    return calci.RE_IS_ZERO.test(num) ? true : false
-}
+const isZero = (num) => !!RE_IS_ZERO.test(num);
 
 //  Helpers
 
-let adder = function (a, b, carry) {
-    return ((a ? parseInt(a) : 0) + (b ? parseInt(b) : 0) + (carry ? parseInt(carry) : 0)).toString()
-}
+const adder = (a, b, carry) =>
+  (
+    (a ? parseInt(a, 10) : 0) +
+    (b ? parseInt(b, 10) : 0) +
+    (carry ? parseInt(carry, 10) : 0)
+  ).toString();
 
-let subtractor = function (a, b) {
-    return ((a ? parseInt(a) : 0) - (b ? parseInt(b) : 0)).toString()
-}
+const subtractor = (a, b) =>
+  ((a ? parseInt(a, 10) : 0) - (b ? parseInt(b, 10) : 0)).toString();
 
-let addPadding = function (num, padding_length, type) {
-    type = type === undefined ? 'left' : type
-    let num_string = ''
-    for (let i = 0; i < padding_length; i++) {
-        num_string += '0'
-    }
-    return type === 'left' ? num_string + num : num + num_string
-}
+const addPadding = (num, paddingLength, inputType) => {
+  const type = inputType === undefined ? 'left' : inputType;
+  let numString = '';
 
-let addLeftPadding = function (num, padding_length) {
-    return addPadding(num, padding_length, 'left')
-}
+  Array.from({length: paddingLength}, () => {
+    numString += '0';
+    return 0;
+  });
 
-let addRightPadding = function (num, padding_length) {
-    return addPadding(num, padding_length, 'right')
-}
+  return type === 'left' ? numString + num : num + numString;
+};
 
-let toggleSign = function (num) {
-    if (isNegative(num)) {
-        num = num.slice(1)
-    } else {
-        num = '-' + num
-    }
-    return num
-}
+const addLeftPadding = (num, paddingLength) =>
+  addPadding(num, paddingLength, 'left');
 
-let multiplier = function (a, b, carry) {
-    return ((a ? parseInt(a) : 0) * (b ? parseInt(b) : 0) + (carry ? parseInt(carry) : 0)).toString()
-}
+const addRightPadding = (num, paddingLength) =>
+  addPadding(num, paddingLength, 'right');
+
+const toggleSign = (num) => {
+  if (isNegative(num)) {
+    return num.slice(1);
+  }
+  return `-${num}`;
+};
+
+const multiplier = (a, b, carry) =>
+  (
+    (a ? parseInt(a, 10) : 0) * (b ? parseInt(b, 10) : 0) +
+    (carry ? parseInt(carry, 10) : 0)
+  ).toString();
 
 //  Comparison
 
-let ltPositive = function (num_1, num_2) {
-    if (isNegative(num_1) || isNegative(num_2)) {
-        throw new Error("Both operands must be positive: " + num_1 + " " + num_2);
-    }
-    let maxLength = Math.max(num_1.length, num_2.length);
-    let lhs = addLeftPadding(num_1, maxLength - num_1.length);
-    let rhs = addLeftPadding(num_2, maxLength - num_2.length);
-    return lhs < rhs; // lexicographical comparison
-}
+const ltPositive = (numOne, numTwo) => {
+  if (isNegative(numOne) || isNegative(numTwo)) {
+    throw new Error(`Both operands must be positive: ${numOne} ${numTwo}`);
+  }
+  const maxLength = Math.max(numOne.length, numTwo.length);
+  const lhs = addLeftPadding(numOne, maxLength - numOne.length);
+  const rhs = addLeftPadding(numTwo, maxLength - numTwo.length);
+  return lhs < rhs; // lexicographical comparison
+};
 
-let lt = calci.lt = function (num_1, num_2) {
-    num_1 = normalize(num_1)
-    num_2 = normalize(num_2)
-    let is_lt = false
-    if (isZero(num_1) && isZero(num_2)) {
-        is_lt = false
-    } else if (isNegative(num_1) && isPositive(num_2)) {
-        is_lt = true
-    } else if (isPositive(num_1) && isNegative(num_2)) {
-        is_lt = false
-    } else if (isNegative(num_1) && isNegative(num_2)) {
-        is_lt = ltPositive(abs(num_1), abs(num_2)) ? false : true
-    } else {
-        is_lt = ltPositive(num_1, num_2) ? true : false
-    }
-    return is_lt
-}
+calci.lt = (inputNumOne, inputNumTwo) => {
+  const numOne = normalize(inputNumOne);
+  const numTwo = normalize(inputNumTwo);
+  let isLt = false;
+  if (isZero(numOne) && isZero(numTwo)) {
+    isLt = false;
+  } else if (isNegative(numOne) && isPositive(numTwo)) {
+    isLt = true;
+  } else if (isPositive(numOne) && isNegative(numTwo)) {
+    isLt = false;
+  } else if (isNegative(numOne) && isNegative(numTwo)) {
+    isLt = !ltPositive(abs(numOne), abs(numTwo));
+  } else {
+    isLt = !!ltPositive(numOne, numTwo);
+  }
+  return isLt;
+};
 
-let abs = function (num) {
-    return num.replace(/^([-+]?)/, '')
-}
+const {lt} = calci;
 
-let eq = calci.eq = function (num_1, num_2) {
-    return normalize(num_1) === normalize(num_2);
-}
+const abs = (num) => num.replace(/^([-+]?)/, '');
 
-let lte = calci.lte = function (num_1, num_2) {
-    return lt(num_1, num_2) || eq(num_1, num_2)
-}
+calci.eq = (numOne, numTwo) => normalize(numOne) === normalize(numTwo);
 
-let gt = calci.gt = function (num_1, num_2) {
-    return !lt(num_1, num_2)
-}
+const {eq} = calci;
 
-let gte = calci.gte = function (num_1, num_2) {
-    return gt(num_1, num_2) || eq(num_1, num_2)
-}
+calci.lte = (numOne, numTwo) => lt(numOne, numTwo) || eq(numOne, numTwo);
+
+calci.gt = (numOne, numTwo) => !lt(numOne, numTwo);
+
+const {gt} = calci;
+
+calci.gte = (numOne, numTwo) => gt(numOne, numTwo) || eq(numOne, numTwo);
 
 //  Addition
 
-let addPositive = function (num_1, num_2, carry, option) {
+const addPositive = (inputNumOne, inputNumTwo, inputCarry, option) => {
+  let resultSum = '';
+  let {additionUnit} = calci;
+  let numOne = inputNumOne ? inputNumOne.toString().trim() : '0';
+  let numTwo = inputNumTwo ? inputNumTwo.toString().trim() : '0';
+  let carry = inputCarry ? inputCarry.toString().trim() : '0';
 
-    let result_sum = '', addition_unit = calci.addition_unit
-    num_1 = num_1 ? num_1.toString().trim() : '0'
-    num_2 = num_2 ? num_2.toString().trim() : '0'
-    carry = carry ? carry.toString().trim() : '0'
+  additionUnit =
+    option && option.additionUnit ? Number(option.additionUnit) : additionUnit;
 
-    addition_unit = option && option['addition_unit'] ? Number(option['addition_unit']) : addition_unit
+  if (numOne.length > numTwo.length) {
+    numTwo = addLeftPadding(numTwo, numOne.length - numTwo.length);
+  } else if (numOne.length < numTwo.length) {
+    numOne = addLeftPadding(numOne, numTwo.length - numOne.length);
+  }
 
-    if (num_1.length > num_2.length) {
-        num_2 = addLeftPadding(num_2, num_1.length - num_2.length)
-    } else if (num_1.length < num_2.length) {
-        num_1 = addLeftPadding(num_1, num_2.length - num_1.length)
+  let stringSplitUp = numOne.length;
+  let stringSplitLower = numOne.length - additionUnit;
+
+  stringSplitLower = stringSplitLower < 0 ? 0 : stringSplitLower;
+
+  for (let j = 0; j < Math.ceil(numOne.length / additionUnit); ) {
+    let adderRst = adder(
+      numOne.slice(stringSplitLower, stringSplitUp),
+      numTwo.slice(stringSplitLower, stringSplitUp),
+      carry,
+    );
+
+    if (adderRst.length < additionUnit) {
+      adderRst = addLeftPadding(adderRst, additionUnit - adderRst.length);
     }
 
-    let string_split_up = num_1.length, string_split_lower = num_1.length - addition_unit
+    carry = adderRst.slice(0, adderRst.length - additionUnit);
 
-    string_split_lower = string_split_lower < 0 ? 0 : string_split_lower
+    resultSum =
+      adderRst.slice(adderRst.length - additionUnit, adderRst.length) +
+      resultSum;
 
-    for (let j = 0; j < Math.ceil(num_1.length / addition_unit); j++) {
-        let adder_rst = adder(num_1.slice(string_split_lower, string_split_up), num_2.slice(string_split_lower, string_split_up), carry)
+    stringSplitUp -= additionUnit;
+    stringSplitLower -= additionUnit;
+    stringSplitLower = stringSplitLower < 0 ? 0 : stringSplitLower;
+    if (stringSplitUp <= 0) {
+      break;
+    }
+    j += 1;
+  }
 
-        if (adder_rst.length < addition_unit) {
-            adder_rst = addLeftPadding(adder_rst, addition_unit - adder_rst.length)
-        }
+  resultSum = `${carry + resultSum}`.replace(/^0+/g, '');
 
-        carry = adder_rst.slice(0, adder_rst.length - addition_unit)
+  resultSum = resultSum || '0';
 
-        result_sum = adder_rst.slice(adder_rst.length - addition_unit, adder_rst.length) + result_sum
+  return resultSum;
+};
 
-        string_split_up -= addition_unit
-        string_split_lower -= addition_unit
-        string_split_lower = string_split_lower < 0 ? 0 : string_split_lower
-        if (string_split_up <= 0) {
-            break
-        }
+const subPositive = (inputNumOne, inputNumTwo, option) => {
+  let resultSum = '';
+  let {additionUnit} = calci;
+  let interchangeNos = false;
+  let numOne = inputNumOne ? inputNumOne.toString().trim() : '0';
+  let numTwo = inputNumTwo ? inputNumTwo.toString().trim() : '0';
+
+  additionUnit =
+    option && option.additionUnit ? Number(option.additionUnit) : additionUnit;
+
+  if (numTwo.length > numOne.length) {
+    interchangeNos = true;
+  } else if (numOne.slice(0, 1) < numTwo.slice(0, 1)) {
+    interchangeNos = true;
+  }
+
+  if (interchangeNos) {
+    numOne = numTwo + ((numTwo = numOne), '');
+  }
+
+  if (numOne.length > numTwo.length) {
+    numTwo = addLeftPadding(numTwo, numOne.length - numTwo.length);
+  } else if (numOne.length < numTwo.length) {
+    numOne = addLeftPadding(numOne, numTwo.length - numOne.length);
+  }
+
+  let stringSplitUp = numOne.length;
+  let stringSplitLower = numOne.length - additionUnit;
+
+  stringSplitLower = stringSplitLower < 0 ? 0 : stringSplitLower;
+
+  let carry = 0;
+
+  for (let j = 0; j < Math.ceil(numOne.length / additionUnit); ) {
+    let unitOne = `${numOne.slice(stringSplitLower, stringSplitUp)}`;
+    let unitTwo = `${numTwo.slice(stringSplitLower, stringSplitUp)}`;
+    let unitRst = '';
+
+    if (carry === 1) {
+      unitTwo = `${parseInt(unitTwo, 10) + carry}`;
+      carry = 0;
     }
 
-    result_sum = (carry + result_sum + '').replace(/^0+/g, '')
-
-    result_sum = result_sum ? result_sum : '0'
-
-    return result_sum
-}
-
-let subPositive = function (num_1, num_2, option) {
-
-    let result_sum = '', addition_unit = calci.addition_unit
-    let interchangeNos = false
-    num_1 = num_1 ? num_1.toString().trim() : '0'
-    num_2 = num_2 ? num_2.toString().trim() : '0'
-
-    addition_unit = option && option['addition_unit'] ? Number(option['addition_unit']) : addition_unit
-
-    if (num_2.length > num_1.length) {
-        interchangeNos = true
-    } else if (num_1.slice(0, 1) < num_2.slice(0, 1)) {
-        interchangeNos = true
+    if (parseInt(unitOne, 10) - parseInt(unitTwo, 10) < 0) {
+      unitOne = unitTwo + ((unitTwo = unitOne), '');
+      carry = 1;
     }
 
-    if (interchangeNos) {
-        num_1 = num_2 + (num_2 = num_1, "");
+    unitRst = subtractor(unitOne, unitTwo);
+
+    if (carry === 1) {
+      unitRst = `${
+        parseInt(`1${addLeftPadding('', additionUnit)}`, 10) -
+        parseInt(unitRst, 10)
+      }`;
     }
 
-    if (num_1.length > num_2.length) {
-        num_2 = addLeftPadding(num_2, num_1.length - num_2.length)
-    } else if (num_1.length < num_2.length) {
-        num_1 = addLeftPadding(num_1, num_2.length - num_1.length)
+    if (unitRst.length < additionUnit) {
+      unitRst = addLeftPadding(unitRst, additionUnit - unitRst.length);
     }
 
-    let string_split_up = num_1.length, string_split_lower = num_1.length - addition_unit
+    resultSum = unitRst + resultSum;
 
-    string_split_lower = string_split_lower < 0 ? 0 : string_split_lower
-
-    let carry = 0
-
-    for (let j = 0; j < Math.ceil(num_1.length / addition_unit); j++) {
-
-        let unit_1 = num_1.slice(string_split_lower, string_split_up) + ''
-        let unit_2 = num_2.slice(string_split_lower, string_split_up) + ''
-        let unit_rst = ''
-
-        if (carry == 1) {
-            unit_2 = parseInt(unit_2) + carry + ''
-            carry = 0
-        }
-
-        if ((parseInt(unit_1) - parseInt(unit_2)) < 0) {
-            unit_1 = unit_2 + (unit_2 = unit_1, "");
-            carry = 1
-        }
-
-        unit_rst = subtractor(unit_1, unit_2)
-
-        if (carry == 1) {
-            unit_rst = (parseInt('1' + addLeftPadding('', addition_unit)) - parseInt(unit_rst)) + ''
-        }
-
-        if (unit_rst.length < addition_unit) {
-            unit_rst = addLeftPadding(unit_rst, addition_unit - unit_rst.length)
-        }
-
-        result_sum = unit_rst + result_sum
-
-        string_split_up -= addition_unit
-        string_split_lower -= addition_unit
-        string_split_lower = string_split_lower < 0 ? 0 : string_split_lower
-        if (string_split_up <= 0) {
-            break
-        }
+    stringSplitUp -= additionUnit;
+    stringSplitLower -= additionUnit;
+    stringSplitLower = stringSplitLower < 0 ? 0 : stringSplitLower;
+    if (stringSplitUp <= 0) {
+      break;
     }
+    j += 1;
+  }
 
-    result_sum = (result_sum + '').replace(/^0+/g, '')
+  resultSum = `${resultSum}`.replace(/^0+/g, '');
 
-    result_sum = result_sum ? result_sum : '0'
+  resultSum = resultSum || '0';
 
-    return result_sum
-}
+  return resultSum;
+};
 
-let add = calci.add = function (num_1, num_2) {
-    let ret = ''
+calci.add = (inputNumOne, inputNumTwo) => {
+  let ret = '';
+  let numOne = inputNumOne;
+  let numTwo = inputNumTwo;
 
-    if (Array.isArray(num_1)) {
-        ret = add_array(num_1)
+  if (Array.isArray(numOne)) {
+    ret = addArray(numOne);
+  } else {
+    numOne = normalize(numOne);
+    numTwo = normalize(numTwo);
+    if (isNegative(numOne) && isNegative(numTwo)) {
+      ret = toggleSign(
+        addPositive(toggleSign(numOne), toggleSign(numTwo), 0, calci.option),
+      );
+    } else if (isPositive(numOne) && isPositive(numTwo)) {
+      ret = addPositive(numOne, numTwo, 0, calci.option);
+    } else if (isNegative(numOne)) {
+      ret = subPositive(abs(numOne), abs(numTwo), calci.option);
+      if (!lt(abs(numOne), abs(numTwo))) {
+        ret = toggleSign(ret);
+      }
+    } else if (lt(abs(numOne), abs(numTwo))) {
+      ret = toggleSign(subPositive(abs(numOne), abs(numTwo), calci.option));
     } else {
-        num_1 = normalize(num_1)
-        num_2 = normalize(num_2)
-        if (isNegative(num_1) && isNegative(num_2)) {
-            ret = toggleSign(addPositive(toggleSign(num_1), toggleSign(num_2), 0, calci.option))
-        } else if (isPositive(num_1) && isPositive(num_2)) {
-            ret = addPositive(num_1, num_2, 0, calci.option)
-        } else {
-            if (isNegative(num_1)) {
-                ret = subPositive(abs(num_1), abs(num_2), calci.option)
-                if (lt(abs(num_1), abs(num_2))) {
-                    ret = ret
-                } else {
-                    ret = toggleSign(ret)
-                }
-            } else {
-                if (lt(abs(num_1), abs(num_2))) {
-                    ret = toggleSign(subPositive(abs(num_1), abs(num_2), calci.option))
-                } else {
-                    ret = subPositive(abs(num_1), abs(num_2), calci.option)
-                }
-            }
-        }
+      ret = subPositive(abs(numOne), abs(numTwo), calci.option);
     }
-    return ret
-}
+  }
+  return ret;
+};
 
-let sub = calci.sub = function (num_1, num_2) {
-    let ret = ''
-    num_1 = normalize(num_1)
-    num_2 = normalize(num_2)
-    ret = add(num_1, toggleSign(num_2))
-    return ret
-}
+const {add} = calci;
 
-let add_array = function (num_arr) {
-    let ret = ''
-    if (Array.isArray(num_arr) && num_arr.length > 0) {
-        ret = num_arr[0]
-        for (let i = 1; i < num_arr.length; i++) {
-            ret = add(num_arr[i], ret)
-        }
+calci.sub = (numOne, numTwo) => {
+  return add(normalize(numOne), toggleSign(normalize(numTwo)));
+};
+
+const addArray = (numArr) => {
+  let ret = '';
+  if (Array.isArray(numArr) && numArr.length > 0) {
+    [ret] = numArr;
+    for (let i = 1; i < numArr.length; ) {
+      ret = add(numArr[i], ret);
+      i += 1;
     }
-    return ret
-}
+  }
+  return ret;
+};
 
-let mulPositive = function (num_1, num_2, option) {
-    let result_sum = '', addition_unit = calci.addition_unit, interchangeNos = false, j_loop_result = ''
-    num_1 = num_1 ? num_1.toString().trim() : '0'
-    num_2 = num_2 ? num_2.toString().trim() : '0'
+const mulPositive = (inputNumOne, inputNumTwo, option) => {
+  let resultSum = '';
+  let {additionUnit} = calci;
+  let interchangeNos = false;
+  let jLoopResult = '';
+  let numOne = inputNumOne ? inputNumOne.toString().trim() : '0';
+  let numTwo = inputNumTwo ? inputNumTwo.toString().trim() : '0';
 
-    addition_unit = option && option['addition_unit'] ? Number(option['addition_unit']) : addition_unit
+  additionUnit =
+    option && option.additionUnit ? Number(option.additionUnit) : additionUnit;
 
-    if (num_2.length > num_1.length) {
-        interchangeNos = true
-    } else if (num_1.slice(0, 1) < num_2.slice(0, 1)) {
-        interchangeNos = true
-    }
+  if (numTwo.length > numOne.length) {
+    interchangeNos = true;
+  } else if (numOne.slice(0, 1) < numTwo.slice(0, 1)) {
+    interchangeNos = true;
+  }
 
-    if (interchangeNos) {
-        num_1 = num_2 + (num_2 = num_1, "");
-    }
+  if (interchangeNos) {
+    numOne = numTwo + ((numTwo = numOne), '');
+  }
 
-    if (isZero(num_1) || isZero(num_2)) {
-        return '0'
-    }
+  if (isZero(numOne) || isZero(numTwo)) {
+    return '0';
+  }
 
-    let num_2_low_point = num_2.length - addition_unit, num_2_up_point = num_2.length
-    let num_1_low_point = 0, num_1_up_point = 0
-    let j_loop_right_padding = 0, i_loop_right_padding = 0
+  let numTwoLowPoint = numTwo.length - additionUnit;
+  let numTwoUpPoint = numTwo.length;
+  let numOneLowPoint = 0;
+  let numOneUpPoint = 0;
+  let jLoopRightPadding = 0;
+  let iLoopRightPadding = 0;
 
+  numTwoLowPoint = numTwoLowPoint < 0 ? 0 : numTwoLowPoint;
 
-    num_2_low_point = num_2_low_point < 0 ? 0 : num_2_low_point
+  for (let i = 0; i < Math.ceil(numTwo.length / additionUnit); ) {
+    jLoopResult = '';
+    numOneLowPoint = numOne.length - additionUnit;
+    numOneUpPoint = numOne.length;
 
-    for (let i = 0; i < Math.ceil(num_2.length / addition_unit); i++) {
-        j_loop_result = ''
-        num_1_low_point = num_1.length - addition_unit
-        num_1_up_point = num_1.length
+    numOneLowPoint = numOneLowPoint < 0 ? 0 : numOneLowPoint;
 
-        num_1_low_point = num_1_low_point < 0 ? 0 : num_1_low_point
+    jLoopRightPadding = 0;
 
-        j_loop_right_padding = 0
+    for (let j = 0; j < Math.ceil(numOne.length / additionUnit); ) {
+      jLoopRightPadding += j > 0 ? additionUnit : 0;
 
-        for (let j = 0; j < Math.ceil(num_1.length / addition_unit); j++) {
+      jLoopResult = addPositive(
+        jLoopResult,
+        addRightPadding(
+          multiplier(
+            numOne.slice(numOneLowPoint, numOneUpPoint),
+            numTwo.slice(numTwoLowPoint, numTwoUpPoint),
+          ),
+          jLoopRightPadding,
+        ),
+      );
 
-            j_loop_right_padding += (j > 0 ? addition_unit : 0)
+      numOneLowPoint -= additionUnit;
+      numOneUpPoint -= additionUnit;
+      numOneLowPoint = numOneLowPoint < 0 ? 0 : numOneLowPoint;
+      if (numOneUpPoint <= 0) {
+        break;
+      }
 
-            j_loop_result = addPositive(j_loop_result, addRightPadding(multiplier(num_1.slice(num_1_low_point, num_1_up_point), num_2.slice(num_2_low_point, num_2_up_point)), j_loop_right_padding))
-
-            num_1_low_point -= addition_unit
-            num_1_up_point -= addition_unit
-            num_1_low_point = num_1_low_point < 0 ? 0 : num_1_low_point
-            if (num_1_up_point <= 0) {
-                break
-            }
-        }
-
-        i_loop_right_padding += (i > 0 ? addition_unit : 0)
-
-        result_sum = addPositive(result_sum, addRightPadding(j_loop_result, i_loop_right_padding))
-
-        num_2_low_point -= addition_unit
-        num_2_up_point -= addition_unit
-        num_2_low_point = num_2_low_point < 0 ? 0 : num_2_low_point
-        if (num_2_up_point <= 0) {
-            break
-        }
+      j += 1;
     }
 
-    result_sum = (result_sum + '').replace(/^0+/g, '')
+    iLoopRightPadding += i > 0 ? additionUnit : 0;
 
-    result_sum = result_sum ? result_sum : '0'
+    resultSum = addPositive(
+      resultSum,
+      addRightPadding(jLoopResult, iLoopRightPadding),
+    );
 
-    return result_sum
-}
-
-let mul = calci.mul = function (num_1, num_2) {
-    let ret = ''
-    num_1 = normalize(num_1)
-    num_2 = normalize(num_2)
-    if ((isNegative(num_1) && isNegative(num_2)) || (isPositive(num_1) && isPositive(num_2))) {
-        ret = mulPositive(abs(num_1), abs(num_2))
-    } else {
-        ret = mulPositive(abs(num_1), abs(num_2))
-        if (!isZero(ret)) {
-            ret = toggleSign(ret)
-        }
+    numTwoLowPoint -= additionUnit;
+    numTwoUpPoint -= additionUnit;
+    numTwoLowPoint = numTwoLowPoint < 0 ? 0 : numTwoLowPoint;
+    if (numTwoUpPoint <= 0) {
+      break;
     }
-    return ret
-}
+
+    i += 1;
+  }
+
+  resultSum = `${resultSum}`.replace(/^0+/g, '');
+
+  resultSum = resultSum || '0';
+
+  return resultSum;
+};
+
+calci.mul = (inputNumOne, inputNumTwo) => {
+  let ret = '';
+  const numOne = normalize(inputNumOne);
+  const numTwo = normalize(inputNumTwo);
+  if (
+    (isNegative(numOne) && isNegative(numTwo)) ||
+    (isPositive(numOne) && isPositive(numTwo))
+  ) {
+    ret = mulPositive(abs(numOne), abs(numTwo));
+  } else {
+    ret = mulPositive(abs(numOne), abs(numTwo));
+    if (!isZero(ret)) {
+      ret = toggleSign(ret);
+    }
+  }
+  return ret;
+};
 
 module.exports = {
-    'add': calci.add,
-    'sub': calci.sub,
-    'lt': calci.lt,
-    'mul': calci.mul,
-}
+  add: calci.add,
+  sub: calci.sub,
+  lt: calci.lt,
+  mul: calci.mul,
+};

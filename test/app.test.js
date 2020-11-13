@@ -1,93 +1,100 @@
-let path = require('path');
-let chai_promised = require('chai-as-promised');
-let chai = require("chai");
-chai.use(chai_promised);
-let should = chai.should();
-let expect = chai.expect
-let assert = require('chai').assert, foo = [];
-const { PerformanceObserver, performance } = require('perf_hooks');
+const chaiPromised = require('chai-as-promised');
+const chai = require('chai');
 
-let calci = require('../src/calci')
+chai.use(chaiPromised);
 
-let start_time = null
+/* eslint-disable no-unused-vars */
 
-describe('less than (lt)', function () {
+const should = chai.should();
 
-    beforeEach(function () {
-        start_time = performance.now()
+/* eslint-enable no-unused-vars */
+
+const {performance} = require('perf_hooks');
+
+const calci = require('../src/calci');
+
+let startTime = null;
+
+/* eslint-disable prefer-const */
+
+let debug = false;
+
+/* eslint-enable prefer-const */
+
+/* eslint-disable no-undef */
+
+describe('less than (lt)', () => {
+  beforeEach(() => {
+    startTime = performance.now();
+  });
+
+  afterEach(() => {
+    if (debug) {
+      // print seconds required to execute each test case.
+      console.log(`timediff: ${performance.now() - startTime}`);
+    }
+    startTime = null;
+  });
+
+  describe('both positive number', () => {
+    it('#1', () => {
+      calci.lt('123', '2342').should.be.equal(true);
     });
 
-    afterEach(function () {
-        //console.log('timediff:' + (performance.now() - start_time))   // print seconds required to execute each test case.
-        start_time = null
+    it('#2', () => {
+      calci.lt('123213', '2342').should.be.equal(false);
+    });
+  });
+
+  describe('both negative number', () => {
+    it('#1', () => {
+      calci.lt('-123213', '-2342').should.be.equal(true);
     });
 
-    describe('both positive number', function () {
+    it('#2', () => {
+      calci.lt('-4564', '-346354535').should.be.equal(false);
+    });
+  });
 
-        it('#1', function () {
-            calci.lt('123', '2342').should.be.equal(true)
-        })
+  describe('one negative and one positive number', () => {
+    it('#1', () => {
+      calci.lt('-4564', '346354535').should.be.equal(true);
+    });
 
-        it('#2', function () {
-            calci.lt('123213', '2342').should.be.equal(false)
-        })
+    it('#2', () => {
+      calci.lt('4564', '-346354535').should.be.equal(false);
+    });
 
-    })
+    it('#3', () => {
+      calci.lt('0', '-346354535').should.be.equal(false);
+    });
 
-    describe('both negative number', function () {
+    it('#4', () => {
+      calci.lt('-4534', '-0').should.be.equal(true);
+    });
+  });
 
-        it('#1', function () {
-            calci.lt('-123213', '-2342').should.be.equal(true)
-        })
+  describe('both zeroes number', () => {
+    it('#1', () => {
+      calci.lt('000', '-000').should.be.equal(false);
+    });
 
-        it('#2', function () {
-            calci.lt('-4564', '-346354535').should.be.equal(false)
-        })
+    it('#2', () => {
+      calci.lt('00000', '00000').should.be.equal(false);
+    });
 
-    })
+    it('#3', () => {
+      calci.lt('+0', '-0').should.be.equal(false);
+    });
 
-    describe('one negative and one positive number', function () {
+    it('#4', () => {
+      calci.lt('000', '0000').should.be.equal(false);
+    });
 
-        it('#1', function () {
-            calci.lt('-4564', '346354535').should.be.equal(true)
-        })
+    it('#5', () => {
+      calci.lt('0', '0').should.be.equal(false);
+    });
+  });
+});
 
-        it('#2', function () {
-            calci.lt('4564', '-346354535').should.be.equal(false)
-        })
-
-        it('#3', function () {
-            calci.lt('0', '-346354535').should.be.equal(false)
-        })
-
-        it('#4', function () {
-            calci.lt('-4534', '-0').should.be.equal(true)
-        })
-
-    })
-
-    describe('both zeroes number', function () {
-
-        it('#1', function () {
-            calci.lt('000', '-000').should.be.equal(false)
-        })
-
-        it('#2', function () {
-            calci.lt('+0000', '-00000').should.be.equal(false)
-        })
-
-        it('#3', function () {
-            calci.lt('+0', '-0').should.be.equal(false)
-        })
-
-        it('#4', function () {
-            calci.lt('000', '0000').should.be.equal(false)
-        })
-
-        it('#5', function () {
-            calci.lt('0', '0').should.be.equal(false)
-        })
-
-    })
-
-})
+/* eslint-enable no-undef */
