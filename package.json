@@ -1,8 +1,8 @@
 {
   "name": "calci",
   "version": "0.0.1",
-  "description": "provides interface to perform calculation which are usually with huges numbers",
-  "homepage": "https://github.com/owner/project#readme",
+  "description": "Provides interface to perform calculation on large numbers",
+  "homepage": "https://github.com/fraddy-oliveira/calci#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/fraddy-oliveira/calci"
