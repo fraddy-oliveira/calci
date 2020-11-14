@@ -1,7 +1,12 @@
 {
-  "name": "Scientific-Calculator",
+  "name": "calci",
   "version": "0.0.1",
-  "description": "provides interface to perform scientific calculation which are usually with huges numbers",
+  "description": "provides interface to perform calculation which are usually with huges numbers",
+  "homepage": "https://github.com/owner/project#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fraddy-oliveira/calci"
+  },
   "main": "src/calci.js",
   "scripts": {
     "testing": "NODE_ENV=development mocha $(find test -name '*.test.js') --timeout 9000 --reporter mochawesome --reporter-options reportDir='testReports',reportFilename=test_reports ",
@@ -21,11 +26,9 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
-    "lodash": "^4.17.20",
     "mixin-deep": "^2.0.1",
     "mocha": "^8.2.1",
     "mochawesome": "^6.2.1",
-    "nodemon": "^2.0.6",
     "rewire": "^5.0.0"
   }
 }
