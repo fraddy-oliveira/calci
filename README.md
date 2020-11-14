@@ -28,3 +28,7 @@ Currently library is only supported in NodeJs. In future support will be extende
 2) Subraction
 3) Multiplication
 4) Less than opertor
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
