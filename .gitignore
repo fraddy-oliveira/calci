@@ -1,6 +1,10 @@
-.idea
-**/node_modules
-/yarn-error.log
+# Custom files
 /config/env.js
 /testReports
 /specs
+
+.idea
+.DS_Store
+
+**/node_modules
+yarn-error.log

@@ -1,22 +1,31 @@
 {
-    "name": "Scientific-Calculator",
-    "version": "0.0.1",
-    "description": "provides interface to perform scientific calculation which are usually with huges numbers",
-    "scripts": {
-        "testing": "NODE_ENV=development mocha $(find test -name '*.test.js') --timeout 9000 --reporter mochawesome --reporter-options reportDir='testReports',reportFilename=test_reports ",
-        "start": "nodemon index.js"
-    },
-    "author": "Fraddy Oliveira <fraddy071@gmail.com>",
-    "license": "MIT",
-    "private": false,
-    "dependencies": {
-        "chai": "^4.2.0",
-        "chai-as-promised": "^7.1.1",
-        "lodash": "^4.17.15",
-        "mixin-deep": "^2.0.1",
-        "mocha": "^6.1.4",
-        "mochawesome": "^4.0.0",
-        "nodemon": "^1.19.1",
-        "rewire": "^4.0.1"
-    }
+  "name": "Scientific-Calculator",
+  "version": "0.0.1",
+  "description": "provides interface to perform scientific calculation which are usually with huges numbers",
+  "main": "src/calci.js",
+  "scripts": {
+    "testing": "NODE_ENV=development mocha $(find test -name '*.test.js') --timeout 9000 --reporter mochawesome --reporter-options reportDir='testReports',reportFilename=test_reports ",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
+  },
+  "author": "Fraddy Oliveira <fraddy071@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {},
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^7.13.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-config-standard": "^16.0.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "lodash": "^4.17.20",
+    "mixin-deep": "^2.0.1",
+    "mocha": "^8.2.1",
+    "mochawesome": "^6.2.1",
+    "nodemon": "^2.0.6",
+    "rewire": "^5.0.0"
+  }
 }

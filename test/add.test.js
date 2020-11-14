@@ -1,83 +1,105 @@
-let path = require('path');
-let chai_promised = require('chai-as-promised');
-let chai = require("chai");
-chai.use(chai_promised);
-let should = chai.should();
-let expect = chai.expect
-let assert = require('chai').assert, foo = [];
-const { PerformanceObserver, performance } = require('perf_hooks');
+const chaiPromised = require('chai-as-promised');
+const chai = require('chai');
 
-let calci = require('../src/calci')
+const {performance} = require('perf_hooks');
 
-let start_time = null
+chai.use(chaiPromised);
 
-describe('addition (add)', function () {
+/* eslint-disable no-unused-vars */
 
-    beforeEach(function () {
-        start_time = performance.now()
+const should = chai.should();
+
+/* eslint-enable no-unused-vars */
+
+const calci = require('../src/calci');
+
+let startTime = null;
+
+/* eslint-disable prefer-const */
+
+let debug = false;
+
+/* eslint-enable prefer-const */
+
+/* eslint-disable no-undef */
+
+describe('addition (add)', () => {
+  beforeEach(() => {
+    startTime = performance.now();
+  });
+
+  afterEach(() => {
+    if (debug) {
+      // print seconds required to execute each test case.
+      console.log(`timediff: ${performance.now() - startTime}`);
+    }
+    startTime = null;
+  });
+
+  describe('add two numbers', () => {
+    it('#1', () => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(
+            calci
+              .add('1123123123123123213123213', '12312312312334233331421322')
+              .should.be.equal('13435435435457356544544535'),
+          );
+        }, 10);
+      });
     });
 
-    afterEach(function () {
-        //console.log('timediff:' + (performance.now() - start_time))   // print seconds required to execute each test case.
-        start_time = null
+    it('#2', () => {
+      calci
+        .add('1123123123123123213123213', '12312312312334233331421322')
+        .should.be.equal('13435435435457356544544535');
     });
 
-    describe('add two numbers', function () {
+    it('#3 - 10 digit', () => {
+      calci.add('1123123423', '8345345523').should.be.equal('9468468946');
+    });
 
-        it('#1', function () {
-            return new Promise((res, rej) => {
-                setTimeout(function () {
-                    res(calci.add('1123123123123123213123213', '12312312312334233331421322').should.be.equal('13435435435457356544544535'))
-                }, 10)
-            });
-        });
+    it('#4 - both blank', () => {
+      calci.add(' ', ' ').should.be.equal('0');
+    });
 
-        it('#2', function () {
-            calci.add('1123123123123123213123213', '12312312312334233331421322').should.be.equal('13435435435457356544544535')
-        })
+    it('#5 - both zero', () => {
+      calci.add('0', '0').should.be.equal('0');
+    });
+  });
 
-        it('#3 - 10 digit', function () {
-            calci.add('1123123423', '8345345523').should.be.equal('9468468946')
-        })
+  describe('add numbers from array', () => {
+    it('#1', () => {
+      const arr = Array.from({length: 100}, () =>
+        parseInt(Math.random() * 1000000000000, 10),
+      );
 
-        it('#4 - both blank', function () {
-            calci.add(' ', ' ').should.be.equal('0')
-        })
+      calci.add(arr).should.be.equal(arr.reduce((a, b) => a + b, 0).toString());
+    });
 
-        it('#5 - both zero', function () {
-            calci.add('0', '0').should.be.equal('0')
-        })
+    it('#2', () => {
+      const arr = [0, 0, 0];
+      calci.add(arr).should.be.equal(arr.reduce((a, b) => a + b, 0).toString());
+    });
 
-    })
+    it('#3', () => {
+      const arr = [
+        '1123123123123123453423213123213',
+        '1231231233245123342234523433331421322',
+        '1231231223453123342333332453245423451421322',
+        '12312232345453245345312312334233331421322',
+        '12312312312334233331421322',
+      ];
+      calci
+        .add(arr)
+        .should.be.equal('1243544687030932968237422435890746658808501');
+    });
 
-    describe('add numbers from array', function () {
-
-        it('#1', function () {
-            let arr = ((digit) => {
-                let arr = []
-                for (let i = 0; i < digit; i++) {
-                    arr.push(parseInt(Math.random() * 1000000000000))
-                }
-                return arr
-            })(100)
-            calci.add(arr).should.be.equal(arr.reduce((a, b) => a + b, 0).toString())
-        })
-
-        it('#2', function () {
-            let arr = [00, 00, 00]
-            calci.add(arr).should.be.equal(arr.reduce((a, b) => a + b, 0).toString())
-        })
-
-        it('#3', function () {
-            let arr = ['1123123123123123453423213123213', '1231231233245123342234523433331421322', '1231231223453123342333332453245423451421322', '12312232345453245345312312334233331421322', '12312312312334233331421322']
-            calci.add(arr).should.be.equal('1243544687030932968237422435890746658808501')
-        })
-
-        it('#4', function () {
-            let arr = [12, 12, 12]
-            calci.add(arr).should.be.equal(arr.reduce((a, b) => a + b, 0).toString())
-        })
-
-    })
-
+    it('#4', () => {
+      const arr = [12, 12, 12];
+      calci.add(arr).should.be.equal(arr.reduce((a, b) => a + b, 0).toString());
+    });
+  });
 });
+
+/* eslint-enable no-undef */
