@@ -15,40 +15,42 @@ const {
 /**
  *    @Name: add
  *    @Description: Add two numbers.
- *    @params {string or array} inputNumOne - number for addition.
+ *    @params {string} inputNumOne - number for addition.
  *    @params {string} inputNumTwo - number for addition.
  *    @return addition of numbers.
  */
 const add = (inputNumOne, inputNumTwo) => {
   let ret = '';
+
   let numOne = inputNumOne;
+
   let numTwo = inputNumTwo;
+
   const option = {};
 
   option.additionUnit = ADDITION_UNIT;
 
-  if (Array.isArray(numOne)) {
-    ret = addArray(numOne);
-  } else {
-    numOne = normalize(numOne);
-    numTwo = normalize(numTwo);
-    if (isNegative(numOne) && isNegative(numTwo)) {
-      ret = toggleSign(
-        addPositive(toggleSign(numOne), toggleSign(numTwo), 0, option),
-      );
-    } else if (isPositive(numOne) && isPositive(numTwo)) {
-      ret = addPositive(numOne, numTwo, 0, option);
-    } else if (isNegative(numOne)) {
-      ret = subPositive(abs(numOne), abs(numTwo), option);
-      if (!lt(abs(numOne), abs(numTwo))) {
-        ret = toggleSign(ret);
-      }
-    } else if (lt(abs(numOne), abs(numTwo))) {
-      ret = toggleSign(subPositive(abs(numOne), abs(numTwo), option));
-    } else {
-      ret = subPositive(abs(numOne), abs(numTwo), option);
+  numOne = normalize(numOne);
+
+  numTwo = normalize(numTwo);
+
+  if (isNegative(numOne) && isNegative(numTwo)) {
+    ret = toggleSign(
+      addPositive(toggleSign(numOne), toggleSign(numTwo), 0, option),
+    );
+  } else if (isPositive(numOne) && isPositive(numTwo)) {
+    ret = addPositive(numOne, numTwo, 0, option);
+  } else if (isNegative(numOne)) {
+    ret = subPositive(abs(numOne), abs(numTwo), option);
+    if (!lt(abs(numOne), abs(numTwo))) {
+      ret = toggleSign(ret);
     }
+  } else if (lt(abs(numOne), abs(numTwo))) {
+    ret = toggleSign(subPositive(abs(numOne), abs(numTwo), option));
+  } else {
+    ret = subPositive(abs(numOne), abs(numTwo), option);
   }
+
   return ret;
 };
 
@@ -115,4 +117,5 @@ module.exports = {
   sub: sub,
   lt: lt,
   mul: mul,
+  addFromArray: addArray,
 };
