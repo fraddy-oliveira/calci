@@ -1,141 +1,33 @@
-const {RE_IS_NUMBER, RE_IS_ZERO} = require('./patterns');
+const {ADDITION_UNIT} = require('./defaults.js');
 
-const calci = {};
+const {
+  normalize,
+  adder,
+  subtractor,
+  toggleSign,
+  addLeftPadding,
+  addRightPadding,
+  multiplier,
+  abs,
+} = require('./helpers.js');
 
-calci.additionUnit = 5;
+const {lt} = require('./comparison.js');
 
-calci.option = {};
-calci.option.additionUnit = 5;
-
-calci.operationType = {addition: 'add', subraction: 'sub'};
-
-const isNegative = (num) => num.toString().indexOf('-') === 0;
-
-const isPositive = (num) => !isNegative(num);
-
-/**
- *    @Name: normalize
- *    @Description: detect input which is not number and throws error.
- *    @Note: keep zero dependencies on this library for this function.
- *    @params {string} num - string to be manipulated.
- *    @return string that can used to perform operations.
- */
-
-const normalize = (inputNum) => {
-  let num = inputNum.toString().trim();
-  num = num ? num.replace(/^\++/g, '') : '0';
-  if (RE_IS_ZERO.exec(num)) {
-    return '0';
-  }
-  const match = RE_IS_NUMBER.exec(num);
-  if (!match) {
-    throw new Error(`Illegal number : ${num}`);
-  }
-  return match[1] + match[2].replace(/^0+/g, '');
-};
-
-const isZero = (num) => !!RE_IS_ZERO.test(num);
-
-//  Helpers
-
-const adder = (a, b, carry) =>
-  (
-    (a ? parseInt(a, 10) : 0) +
-    (b ? parseInt(b, 10) : 0) +
-    (carry ? parseInt(carry, 10) : 0)
-  ).toString();
-
-const subtractor = (a, b) =>
-  ((a ? parseInt(a, 10) : 0) - (b ? parseInt(b, 10) : 0)).toString();
-
-const addPadding = (num, paddingLength, inputType) => {
-  const type = inputType === undefined ? 'left' : inputType;
-  let numString = '';
-
-  Array.from({length: paddingLength}, () => {
-    numString += '0';
-    return 0;
-  });
-
-  return type === 'left' ? numString + num : num + numString;
-};
-
-const addLeftPadding = (num, paddingLength) =>
-  addPadding(num, paddingLength, 'left');
-
-const addRightPadding = (num, paddingLength) =>
-  addPadding(num, paddingLength, 'right');
-
-const toggleSign = (num) => {
-  if (isNegative(num)) {
-    return num.slice(1);
-  }
-  return `-${num}`;
-};
-
-const multiplier = (a, b, carry) =>
-  (
-    (a ? parseInt(a, 10) : 0) * (b ? parseInt(b, 10) : 0) +
-    (carry ? parseInt(carry, 10) : 0)
-  ).toString();
-
-//  Comparison
-
-const ltPositive = (numOne, numTwo) => {
-  if (isNegative(numOne) || isNegative(numTwo)) {
-    throw new Error(`Both operands must be positive: ${numOne} ${numTwo}`);
-  }
-  const maxLength = Math.max(numOne.length, numTwo.length);
-  const lhs = addLeftPadding(numOne, maxLength - numOne.length);
-  const rhs = addLeftPadding(numTwo, maxLength - numTwo.length);
-  return lhs < rhs; // lexicographical comparison
-};
-
-calci.lt = (inputNumOne, inputNumTwo) => {
-  const numOne = normalize(inputNumOne);
-  const numTwo = normalize(inputNumTwo);
-  let isLt = false;
-  if (isZero(numOne) && isZero(numTwo)) {
-    isLt = false;
-  } else if (isNegative(numOne) && isPositive(numTwo)) {
-    isLt = true;
-  } else if (isPositive(numOne) && isNegative(numTwo)) {
-    isLt = false;
-  } else if (isNegative(numOne) && isNegative(numTwo)) {
-    isLt = !ltPositive(abs(numOne), abs(numTwo));
-  } else {
-    isLt = !!ltPositive(numOne, numTwo);
-  }
-  return isLt;
-};
-
-const {lt} = calci;
-
-const abs = (num) => num.replace(/^([-+]?)/, '');
-
-calci.eq = (numOne, numTwo) => normalize(numOne) === normalize(numTwo);
-
-const {eq} = calci;
-
-calci.lte = (numOne, numTwo) => lt(numOne, numTwo) || eq(numOne, numTwo);
-
-calci.gt = (numOne, numTwo) => !lt(numOne, numTwo);
-
-const {gt} = calci;
-
-calci.gte = (numOne, numTwo) => gt(numOne, numTwo) || eq(numOne, numTwo);
+const {isNegative, isPositive, isZero} = require('./validation.js');
 
 //  Addition
 
 const addPositive = (inputNumOne, inputNumTwo, inputCarry, option) => {
   let resultSum = '';
-  let {additionUnit} = calci;
   let numOne = inputNumOne ? inputNumOne.toString().trim() : '0';
   let numTwo = inputNumTwo ? inputNumTwo.toString().trim() : '0';
   let carry = inputCarry ? inputCarry.toString().trim() : '0';
 
-  additionUnit =
-    option && option.additionUnit ? Number(option.additionUnit) : additionUnit;
+  if (!option || !option.additionUnit || Number(option.additionUnit) <= 0) {
+    throw new Error('Option additionUnit is required');
+  }
+
+  const additionUnit = Number(option.additionUnit);
 
   if (numOne.length > numTwo.length) {
     numTwo = addLeftPadding(numTwo, numOne.length - numTwo.length);
@@ -183,13 +75,15 @@ const addPositive = (inputNumOne, inputNumTwo, inputCarry, option) => {
 
 const subPositive = (inputNumOne, inputNumTwo, option) => {
   let resultSum = '';
-  let {additionUnit} = calci;
   let interchangeNos = false;
   let numOne = inputNumOne ? inputNumOne.toString().trim() : '0';
   let numTwo = inputNumTwo ? inputNumTwo.toString().trim() : '0';
 
-  additionUnit =
-    option && option.additionUnit ? Number(option.additionUnit) : additionUnit;
+  if (!option || !option.additionUnit || Number(option.additionUnit) <= 0) {
+    throw new Error('Option additionUnit is required');
+  }
+
+  const additionUnit = Number(option.additionUnit);
 
   if (numTwo.length > numOne.length) {
     interchangeNos = true;
@@ -260,10 +154,13 @@ const subPositive = (inputNumOne, inputNumTwo, option) => {
   return resultSum;
 };
 
-calci.add = (inputNumOne, inputNumTwo) => {
+const add = (inputNumOne, inputNumTwo) => {
   let ret = '';
   let numOne = inputNumOne;
   let numTwo = inputNumTwo;
+  const option = {};
+
+  option.additionUnit = ADDITION_UNIT;
 
   if (Array.isArray(numOne)) {
     ret = addArray(numOne);
@@ -272,27 +169,25 @@ calci.add = (inputNumOne, inputNumTwo) => {
     numTwo = normalize(numTwo);
     if (isNegative(numOne) && isNegative(numTwo)) {
       ret = toggleSign(
-        addPositive(toggleSign(numOne), toggleSign(numTwo), 0, calci.option),
+        addPositive(toggleSign(numOne), toggleSign(numTwo), 0, option),
       );
     } else if (isPositive(numOne) && isPositive(numTwo)) {
-      ret = addPositive(numOne, numTwo, 0, calci.option);
+      ret = addPositive(numOne, numTwo, 0, option);
     } else if (isNegative(numOne)) {
-      ret = subPositive(abs(numOne), abs(numTwo), calci.option);
+      ret = subPositive(abs(numOne), abs(numTwo), option);
       if (!lt(abs(numOne), abs(numTwo))) {
         ret = toggleSign(ret);
       }
     } else if (lt(abs(numOne), abs(numTwo))) {
-      ret = toggleSign(subPositive(abs(numOne), abs(numTwo), calci.option));
+      ret = toggleSign(subPositive(abs(numOne), abs(numTwo), option));
     } else {
-      ret = subPositive(abs(numOne), abs(numTwo), calci.option);
+      ret = subPositive(abs(numOne), abs(numTwo), option);
     }
   }
   return ret;
 };
 
-const {add} = calci;
-
-calci.sub = (numOne, numTwo) => {
+const sub = (numOne, numTwo) => {
   return add(normalize(numOne), toggleSign(normalize(numTwo)));
 };
 
@@ -310,14 +205,16 @@ const addArray = (numArr) => {
 
 const mulPositive = (inputNumOne, inputNumTwo, option) => {
   let resultSum = '';
-  let {additionUnit} = calci;
   let interchangeNos = false;
   let jLoopResult = '';
   let numOne = inputNumOne ? inputNumOne.toString().trim() : '0';
   let numTwo = inputNumTwo ? inputNumTwo.toString().trim() : '0';
 
-  additionUnit =
-    option && option.additionUnit ? Number(option.additionUnit) : additionUnit;
+  if (!option || !option.additionUnit || Number(option.additionUnit) <= 0) {
+    throw new Error('Option additionUnit is required');
+  }
+
+  const additionUnit = Number(option.additionUnit);
 
   if (numTwo.length > numOne.length) {
     interchangeNos = true;
@@ -363,6 +260,8 @@ const mulPositive = (inputNumOne, inputNumTwo, option) => {
           ),
           jLoopRightPadding,
         ),
+        0,
+        option,
       );
 
       numOneLowPoint -= additionUnit;
@@ -380,6 +279,8 @@ const mulPositive = (inputNumOne, inputNumTwo, option) => {
     resultSum = addPositive(
       resultSum,
       addRightPadding(jLoopResult, iLoopRightPadding),
+      0,
+      option,
     );
 
     numTwoLowPoint -= additionUnit;
@@ -399,17 +300,21 @@ const mulPositive = (inputNumOne, inputNumTwo, option) => {
   return resultSum;
 };
 
-calci.mul = (inputNumOne, inputNumTwo) => {
+const mul = (inputNumOne, inputNumTwo) => {
   let ret = '';
+  const option = {};
+
+  option.additionUnit = ADDITION_UNIT;
+
   const numOne = normalize(inputNumOne);
   const numTwo = normalize(inputNumTwo);
   if (
     (isNegative(numOne) && isNegative(numTwo)) ||
     (isPositive(numOne) && isPositive(numTwo))
   ) {
-    ret = mulPositive(abs(numOne), abs(numTwo));
+    ret = mulPositive(abs(numOne), abs(numTwo), option);
   } else {
-    ret = mulPositive(abs(numOne), abs(numTwo));
+    ret = mulPositive(abs(numOne), abs(numTwo), option);
     if (!isZero(ret)) {
       ret = toggleSign(ret);
     }
@@ -418,8 +323,8 @@ calci.mul = (inputNumOne, inputNumTwo) => {
 };
 
 module.exports = {
-  add: calci.add,
-  sub: calci.sub,
-  lt: calci.lt,
-  mul: calci.mul,
+  add: add,
+  sub: sub,
+  lt: lt,
+  mul: mul,
 };
