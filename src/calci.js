@@ -12,8 +12,13 @@ const {
   mulPositive,
 } = require('./signedOperations.js');
 
-//  Addition
-
+/**
+ *    @Name: add
+ *    @Description: Add two numbers.
+ *    @params {string or array} inputNumOne - number for addition.
+ *    @params {string} inputNumTwo - number for addition.
+ *    @return addition of numbers.
+ */
 const add = (inputNumOne, inputNumTwo) => {
   let ret = '';
   let numOne = inputNumOne;
@@ -47,10 +52,23 @@ const add = (inputNumOne, inputNumTwo) => {
   return ret;
 };
 
-const sub = (numOne, numTwo) => {
-  return add(normalize(numOne), toggleSign(normalize(numTwo)));
+/**
+ *    @Name: sub
+ *    @Description: Subtract two numbers.
+ *    @params {string} inputNumOne - number for subtraction.
+ *    @params {string} inputNumTwo - number for subtraction.
+ *    @return addition of numbers.
+ */
+const sub = (inputNumOne, inputNumTwo) => {
+  return add(normalize(inputNumOne), toggleSign(normalize(inputNumTwo)));
 };
 
+/**
+ *    @Name: addArray
+ *    @Description: Add numbers from array.
+ *    @params {array} numArr - list of numbers.
+ *    @return addition of numbers.
+ */
 const addArray = (numArr) => {
   let ret = '';
   if (Array.isArray(numArr) && numArr.length > 0) {
@@ -63,6 +81,13 @@ const addArray = (numArr) => {
   return ret;
 };
 
+/**
+ *    @Name: mul
+ *    @Description: Multiply two numbers.
+ *    @params {string} inputNumOne.
+ *    @params {string} inputNumTwo.
+ *    @return multiplication of numbers.
+ */
 const mul = (inputNumOne, inputNumTwo) => {
   let ret = '';
   const option = {};
