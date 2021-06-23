@@ -9,7 +9,7 @@
   },
   "main": "src/calci.js",
   "scripts": {
-    "testing": "NODE_ENV=development mocha $(find test -name '*.test.js') --timeout 9000 --reporter mochawesome --reporter-options reportDir='testReports',reportFilename=test_reports ",
+    "test": "NODE_ENV=development mocha",
     "lint": "eslint .",
     "lint:fix": "eslint --fix ."
   },
