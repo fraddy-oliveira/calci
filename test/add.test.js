@@ -74,12 +74,16 @@ describe('addition (add)', () => {
         parseInt(Math.random() * 1000000000000, 10),
       );
 
-      calci.addFromArray(arr).should.be.equal(arr.reduce((a, b) => a + b, 0).toString());
+      calci
+        .addFromArray(arr)
+        .should.be.equal(arr.reduce((a, b) => a + b, 0).toString());
     });
 
     it('#2', () => {
       const arr = [0, 0, 0];
-      calci.addFromArray(arr).should.be.equal(arr.reduce((a, b) => a + b, 0).toString());
+      calci
+        .addFromArray(arr)
+        .should.be.equal(arr.reduce((a, b) => a + b, 0).toString());
     });
 
     it('#3', () => {
@@ -97,7 +101,9 @@ describe('addition (add)', () => {
 
     it('#4', () => {
       const arr = [12, 12, 12];
-      calci.addFromArray(arr).should.be.equal(arr.reduce((a, b) => a + b, 0).toString());
+      calci
+        .addFromArray(arr)
+        .should.be.equal(arr.reduce((a, b) => a + b, 0).toString());
     });
   });
 });
