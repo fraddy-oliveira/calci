@@ -3,7 +3,7 @@
 module.exports = {
   root: true,
   env: {
-    es2021: true,
+    es2020: true,
     node: true,
   },
   extends: ['eslint:recommended', 'plugin:prettier/recommended'],
