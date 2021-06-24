@@ -9,7 +9,7 @@
   },
   "main": "src/calci.js",
   "scripts": {
-    "test": "NODE_ENV=development mocha",
+    "test": "mocha",
     "lint": "eslint .",
     "lint:fix": "eslint --fix ."
   },
