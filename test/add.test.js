@@ -5,23 +5,13 @@ const {performance} = require('perf_hooks');
 
 chai.use(chaiPromised);
 
-/* eslint-disable no-unused-vars */
-
 const should = chai.should();
-
-/* eslint-enable no-unused-vars */
 
 const calci = require('../src/calci');
 
 let startTime = null;
 
-/* eslint-disable prefer-const */
-
 let debug = false;
-
-/* eslint-enable prefer-const */
-
-/* eslint-disable no-undef */
 
 describe('addition (add)', () => {
   beforeEach(() => {
@@ -107,5 +97,3 @@ describe('addition (add)', () => {
     });
   });
 });
-
-/* eslint-enable no-undef */
