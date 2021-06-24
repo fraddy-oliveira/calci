@@ -5,23 +5,13 @@ const {performance} = require('perf_hooks');
 
 chai.use(chaiPromised);
 
-/* eslint-disable no-unused-vars */
-
 const should = chai.should();
-
-/* eslint-enable no-unused-vars */
 
 const calci = require('../src/calci');
 
 let startTime = null;
 
-/* eslint-disable prefer-const */
-
 let debug = false;
-
-/* eslint-enable prefer-const */
-
-/* eslint-disable no-undef */
 
 describe('addition (add)', () => {
   beforeEach(() => {
@@ -74,12 +64,16 @@ describe('addition (add)', () => {
         parseInt(Math.random() * 1000000000000, 10),
       );
 
-      calci.addFromArray(arr).should.be.equal(arr.reduce((a, b) => a + b, 0).toString());
+      calci
+        .addFromArray(arr)
+        .should.be.equal(arr.reduce((a, b) => a + b, 0).toString());
     });
 
     it('#2', () => {
       const arr = [0, 0, 0];
-      calci.addFromArray(arr).should.be.equal(arr.reduce((a, b) => a + b, 0).toString());
+      calci
+        .addFromArray(arr)
+        .should.be.equal(arr.reduce((a, b) => a + b, 0).toString());
     });
 
     it('#3', () => {
@@ -97,9 +91,9 @@ describe('addition (add)', () => {
 
     it('#4', () => {
       const arr = [12, 12, 12];
-      calci.addFromArray(arr).should.be.equal(arr.reduce((a, b) => a + b, 0).toString());
+      calci
+        .addFromArray(arr)
+        .should.be.equal(arr.reduce((a, b) => a + b, 0).toString());
     });
   });
 });
-
-/* eslint-enable no-undef */
