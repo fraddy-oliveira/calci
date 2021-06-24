@@ -3,11 +3,7 @@ const chai = require('chai');
 
 chai.use(chaiPromised);
 
-/* eslint-disable no-unused-vars */
-
 const should = chai.should();
-
-/* eslint-enable no-unused-vars */
 
 const {performance} = require('perf_hooks');
 
@@ -15,13 +11,7 @@ const calci = require('../src/calci');
 
 let startTime = null;
 
-/* eslint-disable prefer-const */
-
 let debug = false;
-
-/* eslint-enable prefer-const */
-
-/* eslint-disable no-undef */
 
 describe('subtract (sub)', () => {
   beforeEach(() => {
@@ -84,5 +74,3 @@ describe('subtract (sub)', () => {
     });
   });
 });
-
-/* eslint-enable no-undef */

@@ -3,11 +3,7 @@ const chai = require('chai');
 
 chai.use(chaiPromised);
 
-/* eslint-disable no-unused-vars */
-
 const should = chai.should();
-
-/* eslint-enable no-unused-vars */
 
 const {expect} = chai;
 
@@ -20,14 +16,7 @@ const validationInternal = rewire('../src/validation');
 
 let startTime = null;
 
-/* eslint-disable prefer-const */
-
 let debug = false;
-
-/* eslint-enable prefer-const */
-
-/* eslint-disable no-undef */
-/* eslint-disable no-underscore-dangle */
 
 describe('Test internal function', () => {
   beforeEach(() => {
@@ -271,6 +260,3 @@ describe('Test internal function', () => {
     });
   });
 });
-
-/* eslint-enable no-undef */
-/* eslint-enable no-underscore-dangle */
