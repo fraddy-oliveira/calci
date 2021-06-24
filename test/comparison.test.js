@@ -7,7 +7,7 @@ const should = chai.should();
 
 const {performance} = require('perf_hooks');
 
-const {lt} = require('../src/calci');
+const {lt} = require('../src/comparison.js');
 
 let startTime = null;
 
