@@ -10,8 +10,7 @@
   "main": "src/calci.js",
   "scripts": {
     "test": "mocha",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix ."
+    "lint": "eslint ."
   },
   "author": "Fraddy Oliveira <fraddy071@gmail.com>",
   "license": "MIT",
