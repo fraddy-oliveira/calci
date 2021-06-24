@@ -1,2 +1,9 @@
-specs/
-testReports/
+# Application
+/specs
+
+# Mochawesome reports
+/mochawesome-report
+/testReports
+
+# Package manager
+node_modules/
