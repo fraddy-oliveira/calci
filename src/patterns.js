@@ -10,7 +10,7 @@ const RE_IS_NUMBER = /^([-+]?)0*([0-9][0-9]*)$/;
  *  @Description : Regular expression to check if number is integer.
  */
 
-const REGEX_INT_NUMBER = /^([-+]?)0*([0-9]+)$/;
+const REGEX_INT_NUMBER = /^(?:[-+]?)0*(?:[0-9]+)$/;
 
 /**
  *    @Name: RE_IS_ZERO
