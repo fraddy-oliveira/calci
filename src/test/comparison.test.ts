@@ -7,7 +7,7 @@ const should = chai.should();
 
 import {performance} from 'perf_hooks';
 
-import {lt} from '../comparison';
+import {lt} from '../operators/comparison';
 
 let startTime: number = 0;
 

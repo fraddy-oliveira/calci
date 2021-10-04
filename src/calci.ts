@@ -1,4 +1,4 @@
-export {lt} from './comparison';
+export {lt} from './operators/comparison';
 
 export {add, addArray as addFromArray} from './operators/add';
 

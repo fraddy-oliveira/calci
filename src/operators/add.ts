@@ -2,7 +2,7 @@ import {ADDITION_UNIT} from '../defaults.js';
 
 import {normalize, toggleSign, abs} from '../helpers';
 
-import {lt} from '../comparison';
+import {lt} from './comparison';
 
 import {isNegative, isPositive} from '../validation';
 
