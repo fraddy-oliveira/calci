@@ -1,4 +1,4 @@
-import {ADDITION_UNIT} from '../defaults.js';
+import {ADDITION_UNIT} from '../core/defaults';
 
 import {normalize, toggleSign, abs} from '../helpers';
 
