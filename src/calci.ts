@@ -1,16 +1,14 @@
-const {ADDITION_UNIT} = require('./defaults.js');
+import {ADDITION_UNIT} from './defaults.js';
 
-const {normalize, toggleSign, abs} = require('./helpers.js');
+import {normalize, toggleSign, abs} from './helpers';
 
-const {lt} = require('./comparison.js');
+import {lt} from './comparison';
 
-const {isNegative, isPositive, isZero} = require('./validation.js');
+import {isNegative, isPositive, isZero} from './validation';
 
-const {
-  addPositive,
-  subPositive,
-  mulPositive,
-} = require('./signedOperations.js');
+import {OperationOptionsStructure} from './abstraction/interfaces';
+
+import {addPositive, subPositive, mulPositive} from './signedOperations';
 
 /**
  *    @Name: add
@@ -19,16 +17,14 @@ const {
  *    @params {string} inputNumTwo - number for addition.
  *    @return addition of numbers.
  */
-const add = (inputNumOne, inputNumTwo) => {
+export const add = (inputNumOne: string, inputNumTwo: string) => {
   let ret = '';
 
   let numOne = inputNumOne;
 
   let numTwo = inputNumTwo;
 
-  const option = {};
-
-  option.additionUnit = ADDITION_UNIT;
+  const option: OperationOptionsStructure = {additionUnit: ADDITION_UNIT};
 
   numOne = normalize(numOne);
 
@@ -36,10 +32,10 @@ const add = (inputNumOne, inputNumTwo) => {
 
   if (isNegative(numOne) && isNegative(numTwo)) {
     ret = toggleSign(
-      addPositive(toggleSign(numOne), toggleSign(numTwo), 0, option),
+      addPositive(toggleSign(numOne), toggleSign(numTwo), '0', option),
     );
   } else if (isPositive(numOne) && isPositive(numTwo)) {
-    ret = addPositive(numOne, numTwo, 0, option);
+    ret = addPositive(numOne, numTwo, '0', option);
   } else if (isNegative(numOne)) {
     ret = subPositive(abs(numOne), abs(numTwo), option);
     if (!lt(abs(numOne), abs(numTwo))) {
@@ -61,7 +57,7 @@ const add = (inputNumOne, inputNumTwo) => {
  *    @params {string} inputNumTwo - number for subtraction.
  *    @return addition of numbers.
  */
-const sub = (inputNumOne, inputNumTwo) => {
+export const sub = (inputNumOne: string, inputNumTwo: string) => {
   return add(normalize(inputNumOne), toggleSign(normalize(inputNumTwo)));
 };
 
@@ -71,7 +67,7 @@ const sub = (inputNumOne, inputNumTwo) => {
  *    @params {array} numArr - list of numbers.
  *    @return addition of numbers.
  */
-const addArray = (numArr) => {
+const addArray = (numArr: Array<string>) => {
   let ret = '';
   if (Array.isArray(numArr) && numArr.length > 0) {
     [ret] = numArr;
@@ -90,11 +86,10 @@ const addArray = (numArr) => {
  *    @params {string} inputNumTwo.
  *    @return multiplication of numbers.
  */
-const mul = (inputNumOne, inputNumTwo) => {
+export const mul = (inputNumOne: string, inputNumTwo: string) => {
   let ret = '';
-  const option = {};
 
-  option.additionUnit = ADDITION_UNIT;
+  const option: OperationOptionsStructure = {additionUnit: ADDITION_UNIT};
 
   const numOne = normalize(inputNumOne);
   const numTwo = normalize(inputNumTwo);
@@ -112,10 +107,6 @@ const mul = (inputNumOne, inputNumTwo) => {
   return ret;
 };
 
-module.exports = {
-  add: add,
-  sub: sub,
-  lt: lt,
-  mul: mul,
-  addFromArray: addArray,
-};
+export {lt};
+
+export const addFromArray = addArray;

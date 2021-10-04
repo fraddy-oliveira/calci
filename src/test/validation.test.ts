@@ -1,8 +1,8 @@
-const {performance} = require('perf_hooks');
+import {performance} from 'perf_hooks';
 
-const {isNumber, isZero} = require('../src/validation');
+import {isNumber, isZero} from '../validation';
 
-let startTime = null;
+let startTime: number = 0;
 
 let debug = false;
 
@@ -16,7 +16,7 @@ describe('Test Validation functionality', () => {
       // print seconds required to execute each test case.
       console.log(`timediff: ${performance.now() - startTime}`);
     }
-    startTime = null;
+    startTime = 0;
   });
 
   describe('isNumber', () => {

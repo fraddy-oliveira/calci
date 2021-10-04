@@ -9,14 +9,19 @@
   },
   "main": "./src/calci.js",
   "scripts": {
-    "test": "mocha",
-    "lint": "eslint ."
+    "test": "npm run build:dev && mocha --recursive './build/test/*.js'",
+    "lint": "eslint .",
+    "build:dev": "tsc -b",
+    "build": "tsc -b"
   },
   "author": "Fraddy Oliveira <fraddy.dev@gmail.com>",
   "license": "MIT",
   "private": false,
   "dependencies": {},
   "devDependencies": {
+    "@types/chai-as-promised": "^7.1.4",
+    "@types/mocha": "^9.0.0",
+    "@types/node": "^16.10.2",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "eslint": "^7.13.0",

@@ -1,15 +1,15 @@
-const chaiPromised = require('chai-as-promised');
-const chai = require('chai');
+import chaiPromised from 'chai-as-promised';
+import chai from 'chai';
 
 chai.use(chaiPromised);
 
 const should = chai.should();
 
-const {performance} = require('perf_hooks');
+import {performance} from 'perf_hooks';
 
-const calci = require('../src/calci');
+import * as calci from '../calci';
 
-let startTime = null;
+let startTime: number = 0;
 
 let debug = false;
 
@@ -23,7 +23,7 @@ describe('multiply (mul)', () => {
       // print seconds required to execute each test case.
       console.log(`timediff: ${performance.now() - startTime}`);
     }
-    startTime = null;
+    startTime = 0;
   });
 
   describe('first number negative and second number positive', () => {
@@ -88,33 +88,49 @@ describe('multiply (mul)', () => {
     });
   });
   describe('both positive numbers', () => {
-    let numOne = 0;
-    let numTwo = 0;
+    let numOne = '0';
+    let numTwo = '0';
 
     beforeEach(() => {
-      numOne = parseInt(Math.random() * 100000, 10);
-      numTwo = parseInt(Math.random() * 1000, 10);
+      numOne = parseInt(Math.random() * 100000 + '', 10) + '';
+      numTwo = parseInt(Math.random() * 1000 + '', 10) + '';
     });
 
     afterEach(() => {
-      numOne = 0;
-      numTwo = 0;
+      numOne = '0';
+      numTwo = '0';
     });
 
     it('#1', () => {
-      calci.mul(numOne, numTwo).should.be.equal((numOne * numTwo).toString());
+      calci
+        .mul(numOne, numTwo)
+        .should.be.equal(
+          (parseInt(numOne, 10) * parseInt(numTwo, 10)).toString(),
+        );
     });
 
     it('#2', () => {
-      calci.mul(numOne, numTwo).should.be.equal((numOne * numTwo).toString());
+      calci
+        .mul(numOne, numTwo)
+        .should.be.equal(
+          (parseInt(numOne, 10) * parseInt(numTwo, 10)).toString(),
+        );
     });
 
     it('#3', () => {
-      calci.mul(numOne, numTwo).should.be.equal((numOne * numTwo).toString());
+      calci
+        .mul(numOne, numTwo)
+        .should.be.equal(
+          (parseInt(numOne, 10) * parseInt(numTwo, 10)).toString(),
+        );
     });
 
     it('#4', () => {
-      calci.mul(numOne, numTwo).should.be.equal((numOne * numTwo).toString());
+      calci
+        .mul(numOne, numTwo)
+        .should.be.equal(
+          (parseInt(numOne, 10) * parseInt(numTwo, 10)).toString(),
+        );
     });
   });
 

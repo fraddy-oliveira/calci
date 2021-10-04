@@ -1,15 +1,15 @@
-const chaiPromised = require('chai-as-promised');
-const chai = require('chai');
+import chaiPromised from 'chai-as-promised';
+import chai from 'chai';
 
-const {performance} = require('perf_hooks');
+import {performance} from 'perf_hooks';
 
 chai.use(chaiPromised);
 
 const should = chai.should();
 
-const calci = require('../src/calci');
+import * as calci from '../calci';
 
-let startTime = null;
+let startTime: number = 0;
 
 let debug = false;
 
@@ -23,7 +23,7 @@ describe('addition (add)', () => {
       // print seconds required to execute each test case.
       console.log(`timediff: ${performance.now() - startTime}`);
     }
-    startTime = null;
+    startTime = 0;
   });
 
   describe('add two numbers', () => {
@@ -60,20 +60,35 @@ describe('addition (add)', () => {
 
   describe('add numbers from array', () => {
     it('#1', () => {
-      const arr = Array.from({length: 100}, () =>
-        parseInt(Math.random() * 1000000000000, 10),
+      const arr = Array.from(
+        {length: 100},
+        () => parseInt(Math.random() * 1000000000000 + '', 10) + '',
       );
 
       calci
         .addFromArray(arr)
-        .should.be.equal(arr.reduce((a, b) => a + b, 0).toString());
+        .should.be.equal(
+          arr
+            .reduce(
+              (a, b) => (parseInt(a, 10) + parseInt(b, 10)).toString(),
+              '0',
+            )
+            .toString(),
+        );
     });
 
     it('#2', () => {
-      const arr = [0, 0, 0];
+      const arr = ['0', '0', '0'];
       calci
         .addFromArray(arr)
-        .should.be.equal(arr.reduce((a, b) => a + b, 0).toString());
+        .should.be.equal(
+          arr
+            .reduce(
+              (a, b) => (parseInt(a, 10) + parseInt(b, 10)).toString(),
+              '0',
+            )
+            .toString(),
+        );
     });
 
     it('#3', () => {
@@ -90,10 +105,17 @@ describe('addition (add)', () => {
     });
 
     it('#4', () => {
-      const arr = [12, 12, 12];
+      const arr = ['12', '12', '12'];
       calci
         .addFromArray(arr)
-        .should.be.equal(arr.reduce((a, b) => a + b, 0).toString());
+        .should.be.equal(
+          arr
+            .reduce(
+              (a, b) => (parseInt(a, 10) + parseInt(b, 10)).toString(),
+              '0',
+            )
+            .toString(),
+        );
     });
   });
 });

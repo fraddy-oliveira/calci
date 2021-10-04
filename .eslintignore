@@ -7,3 +7,7 @@
 
 # Package manager
 node_modules/
+
+# build
+
+/build/

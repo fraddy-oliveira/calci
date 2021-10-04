@@ -1,4 +1,4 @@
-const {RE_IS_NUMBER, RE_IS_ZERO} = require('./patterns');
+import {RE_IS_NUMBER, RE_IS_ZERO} from './patterns';
 
 /**
  *    @Name: isNumber
@@ -7,7 +7,7 @@ const {RE_IS_NUMBER, RE_IS_ZERO} = require('./patterns');
  *    @return returns true is input is number else false.
  */
 
-const isNumber = (num) => RE_IS_NUMBER.test(num.toString().trim());
+export const isNumber = (num: string) => RE_IS_NUMBER.test(num.trim());
 
 /**
  *    @Name: isNegative
@@ -16,7 +16,7 @@ const isNumber = (num) => RE_IS_NUMBER.test(num.toString().trim());
  *    @return returns true is input is negative else false.
  */
 
-const isNegative = (num) => num.toString().indexOf('-') === 0;
+export const isNegative = (num: string) => num.indexOf('-') === 0;
 
 /**
  *    @Name: isPositive
@@ -25,7 +25,7 @@ const isNegative = (num) => num.toString().indexOf('-') === 0;
  *    @return returns true is input is positive else false.
  */
 
-const isPositive = (num) => !isNegative(num);
+export const isPositive = (num: string) => !isNegative(num);
 
 /**
  *    @Name: isZero
@@ -34,6 +34,4 @@ const isPositive = (num) => !isNegative(num);
  *    @return returns true is input is zero else false.
  */
 
-const isZero = (num) => !!RE_IS_ZERO.test(num);
-
-module.exports = {isNumber, isNegative, isPositive, isZero};
+export const isZero = (num: string) => !!RE_IS_ZERO.test(num);

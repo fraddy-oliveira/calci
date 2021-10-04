@@ -1,15 +1,15 @@
-const chaiPromised = require('chai-as-promised');
-const chai = require('chai');
+import chaiPromised from 'chai-as-promised';
+import chai from 'chai';
 
 chai.use(chaiPromised);
 
 const should = chai.should();
 
-const {performance} = require('perf_hooks');
+import {performance} from 'perf_hooks';
 
-const {lt} = require('../src/comparison.js');
+import {lt} from '../comparison';
 
-let startTime = null;
+let startTime: number = 0;
 
 let debug = false;
 
@@ -23,7 +23,7 @@ describe('less than (lt)', () => {
       // print seconds required to execute each test case.
       console.log(`timediff: ${performance.now() - startTime}`);
     }
-    startTime = null;
+    startTime = 0;
   });
 
   describe('both positive number', () => {
