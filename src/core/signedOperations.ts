@@ -8,7 +8,7 @@ import {
 
 import {isZero} from './validation';
 
-import {OperationOptionsStructure} from './abstraction/interfaces';
+import {OperationOptionsStructure} from './interfaces';
 
 export const addPositive = (
   inputNumOne: string,
@@ -39,7 +39,6 @@ export const addPositive = (
   stringSplitLower = stringSplitLower < 0 ? 0 : stringSplitLower;
 
   for (let j = 0; j < Math.ceil(numOne.length / additionUnit); ) {
-
     let adderRst = adder(
       numOne.slice(stringSplitLower, stringSplitUp),
       numTwo.slice(stringSplitLower, stringSplitUp),

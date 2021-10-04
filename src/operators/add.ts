@@ -1,14 +1,14 @@
 import {ADDITION_UNIT} from '../core/defaults';
 
-import {normalize, toggleSign, abs} from '../helpers';
+import {normalize, toggleSign, abs} from '../core/helpers';
 
 import {lt} from './comparison';
 
-import {isNegative, isPositive} from '../validation';
+import {isNegative, isPositive} from '../core/validation';
 
-import {OperationOptionsStructure} from '../abstraction/interfaces';
+import {OperationOptionsStructure} from '../core/interfaces';
 
-import {addPositive, subPositive} from '../signedOperations';
+import {addPositive, subPositive} from '../core/signedOperations';
 
 /**
  *    @Name: add

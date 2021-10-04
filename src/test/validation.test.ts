@@ -1,6 +1,6 @@
 import {performance} from 'perf_hooks';
 
-import {isNumber, isZero} from '../validation';
+import {isNumber, isZero} from '../core/validation';
 
 let startTime: number = 0;
 

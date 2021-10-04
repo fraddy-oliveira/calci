@@ -1,12 +1,12 @@
 import {ADDITION_UNIT} from '../core/defaults';
 
-import {normalize, toggleSign, abs} from '../helpers';
+import {normalize, toggleSign, abs} from '../core/helpers';
 
-import {isNegative, isPositive, isZero} from '../validation';
+import {isNegative, isPositive, isZero} from '../core/validation';
 
-import {OperationOptionsStructure} from '../abstraction/interfaces';
+import {OperationOptionsStructure} from '../core/interfaces';
 
-import {mulPositive} from '../signedOperations';
+import {mulPositive} from '../core/signedOperations';
 
 /**
  *    @Name: mul

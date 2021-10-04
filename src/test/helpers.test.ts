@@ -9,7 +9,7 @@ const {expect} = chai;
 
 import {performance} from 'perf_hooks';
 
-import {toggleSign, normalize} from '../helpers';
+import {toggleSign, normalize} from '../core/helpers';
 
 let startTime: number = 0;
 
