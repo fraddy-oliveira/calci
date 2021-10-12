@@ -1,4 +1,7 @@
 import {performance} from 'perf_hooks';
+import chai from 'chai';
+
+const should = chai.should();
 
 import * as calci from '../calci';
 

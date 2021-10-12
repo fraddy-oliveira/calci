@@ -1,7 +1,4 @@
-import chaiPromised from 'chai-as-promised';
 import chai from 'chai';
-
-chai.use(chaiPromised);
 
 const should = chai.should();
 
