@@ -9,10 +9,9 @@
   },
   "main": "./src/calci.js",
   "scripts": {
-    "test": "npm run build:dev && mocha --recursive './build/test/*.js'",
+    "test": "npm run build && mocha './build/test/**/*.js'",
     "lint": "eslint .",
-    "build:dev": "tsc -b",
-    "build": "tsc -b"
+    "build": "rimraf ./build/* && tsc -b"
   },
   "author": "Fraddy Oliveira <fraddy.dev@gmail.com>",
   "license": "MIT",
@@ -27,11 +26,11 @@
     "eslint": "^7.13.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "mixin-deep": "^2.0.1",
     "mocha": "^8.2.1",
     "mochawesome": "^6.2.1",
     "prettier": "^2.3.1",
-    "rewire": "^5.0.0"
+    "rewire": "^5.0.0",
+    "rimraf": "^3.0.2"
   },
   "engines": {
     "node": ">=12.4.0"

@@ -1,11 +1,4 @@
-import chaiPromised from 'chai-as-promised';
-import chai from 'chai';
-
 import {performance} from 'perf_hooks';
-
-chai.use(chaiPromised);
-
-const should = chai.should();
 
 import * as calci from '../calci';
 
@@ -28,15 +21,9 @@ describe('addition (add)', () => {
 
   describe('add two numbers', () => {
     it('#1', () => {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve(
-            calci
-              .add('1123123123123123213123213', '12312312312334233331421322')
-              .should.be.equal('13435435435457356544544535'),
-          );
-        }, 10);
-      });
+      calci
+        .add('1123123123123123213123213', '12312312312334233331421322')
+        .should.be.equal('13435435435457356544544535');
     });
 
     it('#2', () => {
