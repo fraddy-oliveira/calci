@@ -9,9 +9,10 @@
   },
   "main": "./build/calci.js",
   "scripts": {
-    "test": "npm run build && mocha './build/test/**/*.js'",
+    "test": "npm run clean:report && npm run build && mocha './build/test/**/*.js'",
     "lint": "eslint .",
-    "build": "rimraf ./build/* && tsc -b"
+    "build": "rimraf ./build/* && tsc -b",
+    "clean:report": "rimraf ./test-report/*"
   },
   "author": "Fraddy Oliveira <fraddy.dev@gmail.com>",
   "license": "MIT",
