@@ -7,7 +7,7 @@
     "type": "git",
     "url": "https://github.com/fraddy-oliveira/calci"
   },
-  "main": "./src/calci.js",
+  "main": "./build/calci.js",
   "scripts": {
     "test": "npm run build && mocha './build/test/**/*.js'",
     "lint": "eslint .",
