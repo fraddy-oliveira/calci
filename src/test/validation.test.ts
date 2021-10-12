@@ -1,3 +1,5 @@
+import {expect} from 'chai';
+
 import {performance} from 'perf_hooks';
 
 import {isNumber, isZero} from '../core/validation';
@@ -22,81 +24,81 @@ describe('Test Validation functionality', () => {
   describe('isNumber', () => {
     describe('positive no with out sign', () => {
       it('#1', () => {
-        isNumber('1231231').should.be.equal(true);
+        expect(isNumber('1231231')).to.be.true;
       });
 
       it('#2', () => {
-        isNumber('41431234002342342134234').should.be.equal(true);
+        expect(isNumber('41431234002342342134234')).to.be.true;
       });
 
       it('#3', () => {
-        isNumber('  7867234745756  ').should.be.equal(true);
+        expect(isNumber('  7867234745756  ')).to.be.true;
       });
     });
 
     describe('positive no with sign', () => {
       it('#1', () => {
-        isNumber('+1231231').should.be.equal(true);
+        expect(isNumber('+1231231')).to.be.true;
       });
 
       it('#2', () => {
-        isNumber('+2345234523453').should.be.equal(true);
+        expect(isNumber('+2345234523453')).to.be.true;
       });
 
       it('#3', () => {
-        isNumber('  +925465672783565  ').should.be.equal(true);
+        expect(isNumber('  +925465672783565  ')).to.be.true;
       });
     });
 
     describe('invalid positive no with sign', () => {
       it('#1', () => {
-        isNumber('  +8945645023423421q34234  ').should.be.equal(false);
+        expect(isNumber('  +8945645023423421q34234  ')).to.be.false;
       });
 
       it('#2', () => {
-        isNumber('s  +9754567575  a').should.be.equal(false);
+        expect(isNumber('s  +9754567575  a')).to.be.false;
       });
     });
 
     describe('not number', () => {
       it('#1', () => {
-        isNumber('-+9754567575').should.be.equal(false);
+        expect(isNumber('-+9754567575')).to.be.false;
       });
     });
 
     describe('check for zero', () => {
       it('#1', () => {
-        isNumber('00000000').should.be.equal(true);
+        expect(isNumber('00000000')).to.be.true;
       });
     });
 
     describe('check for zero with positive sign', () => {
       it('#1', () => {
-        isNumber('+00000000').should.be.equal(true);
+        expect(isNumber('+00000000')).to.be.true;
       });
     });
 
     describe('check for zero with negative sign', () => {
       it('#1', () => {
-        isNumber('-00000000').should.be.equal(true);
+        expect(isNumber('-00000000')).to.be.true;
       });
     });
 
     describe('check for single digit zero', () => {
       it('#1', () => {
-        isNumber('0').should.be.equal(true);
+        expect(isNumber('0')).to.be.true;
       });
     });
 
     describe('check for single digit zero with negative sign', () => {
       it('#1', () => {
-        isNumber('-0').should.be.equal(true);
+        expect(isNumber('-0')).to.be.true;
       });
     });
 
     describe('check for single digit zero with positive sign', () => {
       it('#1', () => {
-        isNumber('+0').should.be.equal(true);
+        expect(isNumber('+0')).to.be.true;
       });
     });
   });
@@ -104,27 +106,27 @@ describe('Test Validation functionality', () => {
   describe('isZero', () => {
     describe('check for zero', () => {
       it('#1', () => {
-        isZero('23432').should.be.equal(false);
+        expect(isZero('23432')).to.be.false;
       });
 
       it('#2', () => {
-        isZero('00').should.be.equal(true);
+        expect(isZero('00')).to.be.true;
       });
 
       it('#3', () => {
-        isZero('-0000').should.be.equal(true);
+        expect(isZero('-0000')).to.be.true;
       });
 
       it('#4', () => {
-        isZero('+000000').should.be.equal(true);
+        expect(isZero('+000000')).to.be.true;
       });
 
       it('#5', () => {
-        isZero('+435345').should.be.equal(false);
+        expect(isZero('+435345')).to.be.false;
       });
 
       it('#6', () => {
-        isZero('-5675435345').should.be.equal(false);
+        expect(isZero('-5675435345')).to.be.false;
       });
     });
   });

@@ -1,10 +1,8 @@
-import chai from 'chai';
-
-const should = chai.should();
+import {expect} from 'chai';
 
 import {performance} from 'perf_hooks';
 
-import * as calci from '../calci';
+import {sub} from '../calci';
 
 let startTime: number = 0;
 
@@ -25,49 +23,49 @@ describe('subtract (sub)', () => {
 
   describe('two positive numbers', () => {
     it('#1', () => {
-      calci.sub('60', '90').should.be.equal('-30');
+      expect(sub('60', '90')).to.equal('-30');
     });
 
     it('#2', () => {
-      calci
-        .sub('42343242343234343260', '42234234343260')
-        .should.be.equal('42343200109000000000');
+      expect(sub('42343242343234343260', '42234234343260')).to.equal(
+        '42343200109000000000',
+      );
     });
 
     it('#3', () => {
-      calci.sub('00', '00').should.be.equal('0');
+      expect(sub('00', '00')).to.equal('0');
     });
 
     it('#4', () => {
-      calci.sub('989', '89').should.be.equal('900');
+      expect(sub('989', '89')).to.equal('900');
     });
 
     it('#5', () => {
-      calci.sub('555', '555').should.be.equal('0');
+      expect(sub('555', '555')).to.equal('0');
     });
 
     it('#6', () => {
-      calci.sub('9000000', '1111111').should.be.equal('7888889');
+      expect(sub('9000000', '1111111')).to.equal('7888889');
     });
 
     it('#7', () => {
-      calci.sub('34', '55').should.be.equal('-21');
+      expect(sub('34', '55')).to.equal('-21');
     });
   });
 
   describe('first negative numbers', () => {
     it('#1', () => {
-      calci.sub('-60', '90').should.be.equal('-150');
+      expect(sub('-60', '90')).to.equal('-150');
     });
 
     it('#2', () => {
-      calci.sub('-150', '90').should.be.equal('-240');
+      expect(sub('-150', '90')).to.equal('-240');
     });
   });
 
   describe('second negative numbers', () => {
     it('#1', () => {
-      calci.sub('60', '-90').should.be.equal('150');
+      expect(sub('60', '-90')).to.equal('150');
     });
   });
 });
