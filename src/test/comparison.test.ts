@@ -7,7 +7,7 @@ let startTime: number = 0;
 
 let debug = false;
 
-describe.only('less than operation', () => {
+describe('less than operation', () => {
   beforeEach(() => {
     startTime = performance.now();
   });
