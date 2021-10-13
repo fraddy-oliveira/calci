@@ -1,24 +1,32 @@
-const {
+import {
   addLeftPadding,
   adder,
   subtractor,
   addRightPadding,
   multiplier,
-} = require('./helpers.js');
+} from './helpers';
 
-const {isZero} = require('./validation.js');
+import {isZero} from './validation';
 
-const addPositive = (inputNumOne, inputNumTwo, inputCarry, option) => {
+import {OperationOptionsStructure} from './interfaces';
+
+export const addPositive = (
+  numOne: string,
+  numTwo: string,
+  carry: string,
+  option: OperationOptionsStructure,
+) => {
   let resultSum = '';
-  let numOne = inputNumOne ? inputNumOne.toString().trim() : '0';
-  let numTwo = inputNumTwo ? inputNumTwo.toString().trim() : '0';
-  let carry = inputCarry ? inputCarry.toString().trim() : '0';
 
-  if (!option || !option.additionUnit || Number(option.additionUnit) <= 0) {
-    throw new Error('Option additionUnit is required');
-  }
+  numOne = numOne.trim();
+  numTwo = numTwo.trim();
+  carry = carry.trim();
 
-  const additionUnit = Number(option.additionUnit);
+  numOne = numOne ? numOne : '0';
+  numTwo = numTwo ? numTwo : '0';
+  carry = carry ? carry : '0';
+
+  const additionUnit = option.additionUnit;
 
   if (numOne.length > numTwo.length) {
     numTwo = addLeftPadding(numTwo, numOne.length - numTwo.length);
@@ -31,7 +39,9 @@ const addPositive = (inputNumOne, inputNumTwo, inputCarry, option) => {
 
   stringSplitLower = stringSplitLower < 0 ? 0 : stringSplitLower;
 
-  for (let j = 0; j < Math.ceil(numOne.length / additionUnit); ) {
+  const computeUnits = Math.ceil(numOne.length / additionUnit);
+
+  for (let j = 0; j < computeUnits; ) {
     let adderRst = adder(
       numOne.slice(stringSplitLower, stringSplitUp),
       numTwo.slice(stringSplitLower, stringSplitUp),
@@ -64,7 +74,11 @@ const addPositive = (inputNumOne, inputNumTwo, inputCarry, option) => {
   return resultSum;
 };
 
-const subPositive = (inputNumOne, inputNumTwo, option) => {
+export const subPositive = (
+  inputNumOne: string,
+  inputNumTwo: string,
+  option: OperationOptionsStructure,
+) => {
   let resultSum = '';
   let interchangeNos = false;
   let numOne = inputNumOne ? inputNumOne.toString().trim() : '0';
@@ -145,7 +159,11 @@ const subPositive = (inputNumOne, inputNumTwo, option) => {
   return resultSum;
 };
 
-const mulPositive = (inputNumOne, inputNumTwo, option) => {
+export const mulPositive = (
+  inputNumOne: string,
+  inputNumTwo: string,
+  option: OperationOptionsStructure,
+) => {
   let resultSum = '';
   let interchangeNos = false;
   let jLoopResult = '';
@@ -199,10 +217,11 @@ const mulPositive = (inputNumOne, inputNumTwo, option) => {
           multiplier(
             numOne.slice(numOneLowPoint, numOneUpPoint),
             numTwo.slice(numTwoLowPoint, numTwoUpPoint),
+            '0',
           ),
           jLoopRightPadding,
         ),
-        0,
+        '0',
         option,
       );
 
@@ -221,7 +240,7 @@ const mulPositive = (inputNumOne, inputNumTwo, option) => {
     resultSum = addPositive(
       resultSum,
       addRightPadding(jLoopResult, iLoopRightPadding),
-      0,
+      '0',
       option,
     );
 
@@ -241,5 +260,3 @@ const mulPositive = (inputNumOne, inputNumTwo, option) => {
 
   return resultSum;
 };
-
-module.exports = {addPositive, subPositive, mulPositive};

@@ -4,8 +4,4 @@
  *    @TODO: Find the optimal digit count
  */
 
-const additionUnit = 5;
-
-module.exports = {
-  ADDITION_UNIT: additionUnit,
-};
+export const ADDITION_UNIT = 5;

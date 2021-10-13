@@ -1,10 +1,11 @@
-const {isZero, isNegative, isPositive} = require('./validation.js');
+import {isZero, isNegative, isPositive} from '../core/validation';
 
-const {normalize, addLeftPadding, abs} = require('./helpers.js');
+import {normalize, addLeftPadding, abs} from '../core/helpers';
 
-const eq = (numOne, numTwo) => normalize(numOne) === normalize(numTwo);
+export const eq = (numOne: string, numTwo: string) =>
+  normalize(numOne) === normalize(numTwo);
 
-const ltPositive = (numOne, numTwo) => {
+const ltPositive = (numOne: string, numTwo: string) => {
   if (isNegative(numOne) || isNegative(numTwo)) {
     throw new Error(`Both operands must be positive: ${numOne} ${numTwo}`);
   }
@@ -18,7 +19,7 @@ const ltPositive = (numOne, numTwo) => {
   return lhs < rhs; // lexicographical comparison
 };
 
-const lt = (inputNumOne, inputNumTwo) => {
+export const lt = (inputNumOne: string, inputNumTwo: string) => {
   const numOne = normalize(inputNumOne);
 
   const numTwo = normalize(inputNumTwo);
@@ -40,10 +41,10 @@ const lt = (inputNumOne, inputNumTwo) => {
   return isLt;
 };
 
-const lte = (numOne, numTwo) => lt(numOne, numTwo) || eq(numOne, numTwo);
+export const lte = (numOne: string, numTwo: string) =>
+  lt(numOne, numTwo) || eq(numOne, numTwo);
 
-const gt = (numOne, numTwo) => !lt(numOne, numTwo);
+export const gt = (numOne: string, numTwo: string) => !lt(numOne, numTwo);
 
-const gte = (numOne, numTwo) => gt(numOne, numTwo) || eq(numOne, numTwo);
-
-module.exports = {lt, eq, lte, gt, gte};
+export const gte = (numOne: string, numTwo: string) =>
+  gt(numOne, numTwo) || eq(numOne, numTwo);

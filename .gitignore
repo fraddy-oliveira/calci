@@ -2,8 +2,10 @@
 /specs
 
 # Mochawesome reports
-/mochawesome-report
-/testReports
+/test-report
 
 # Package manager
 node_modules/
+
+# build
+/lib/
