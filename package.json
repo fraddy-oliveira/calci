@@ -7,11 +7,14 @@
     "type": "git",
     "url": "https://github.com/fraddy-oliveira/calci"
   },
-  "main": "./build/calci.js",
+  "main": "./lib/calci.js",
+  "files": [
+    "lib/**/*"
+  ],
   "scripts": {
-    "test": "npm run clean:report && npm run build && mocha './build/test/**/*.js'",
+    "test": "npm run clean:report && npm run build && mocha './lib/test/**/*.js'",
     "lint": "eslint .",
-    "build": "rimraf ./build/* && tsc -b",
+    "build": "rimraf ./lib/* && tsc -b",
     "clean:report": "rimraf ./test-report/*"
   },
   "author": "Fraddy Oliveira <fraddy.dev@gmail.com>",
