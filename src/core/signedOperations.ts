@@ -11,21 +11,22 @@ import {isZero} from './validation';
 import {OperationOptionsStructure} from './interfaces';
 
 export const addPositive = (
-  inputNumOne: string,
-  inputNumTwo: string,
-  inputCarry: string,
+  numOne: string,
+  numTwo: string,
+  carry: string,
   option: OperationOptionsStructure,
 ) => {
   let resultSum = '';
-  let numOne = inputNumOne ? inputNumOne.toString().trim() : '0';
-  let numTwo = inputNumTwo ? inputNumTwo.toString().trim() : '0';
-  let carry = inputCarry ? inputCarry.toString().trim() : '0';
 
-  if (!option || !option.additionUnit || Number(option.additionUnit) <= 0) {
-    throw new Error('Option additionUnit is required');
-  }
+  numOne = numOne.trim();
+  numTwo = numTwo.trim();
+  carry = carry.trim();
 
-  const additionUnit = Number(option.additionUnit);
+  numOne = numOne ? numOne : '0';
+  numTwo = numTwo ? numTwo : '0';
+  carry = carry ? carry : '0';
+
+  const additionUnit = option.additionUnit;
 
   if (numOne.length > numTwo.length) {
     numTwo = addLeftPadding(numTwo, numOne.length - numTwo.length);
@@ -38,7 +39,9 @@ export const addPositive = (
 
   stringSplitLower = stringSplitLower < 0 ? 0 : stringSplitLower;
 
-  for (let j = 0; j < Math.ceil(numOne.length / additionUnit); ) {
+  const computeUnits = Math.ceil(numOne.length / additionUnit);
+
+  for (let j = 0; j < computeUnits; ) {
     let adderRst = adder(
       numOne.slice(stringSplitLower, stringSplitUp),
       numTwo.slice(stringSplitLower, stringSplitUp),
