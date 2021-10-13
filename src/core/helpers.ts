@@ -79,3 +79,12 @@ export const addRightPadding = (num: string, paddingLength: number) =>
   addPadding(num, paddingLength, 'right');
 
 export const abs = (num: string) => num.replace(/^([-+]?)/, '');
+
+export const addToVerify = (array: string[]): string => {
+  const sum = array.reduce(
+    (a: string, b: string) => (parseInt(a, 10) + parseInt(b, 10)).toString(),
+    '0',
+  );
+
+  return sum;
+};

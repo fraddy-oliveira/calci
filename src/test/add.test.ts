@@ -4,18 +4,11 @@ import {expect} from 'chai';
 
 import {add, addFromArray} from '../calci';
 
+import {addToVerify} from '../core/helpers';
+
 let startTime: number = 0;
 
 let debug = false;
-
-const addToVerify = (array: string[]): string => {
-  const sum = array.reduce(
-    (a: string, b: string) => (parseInt(a, 10) + parseInt(b, 10)).toString(),
-    '0',
-  );
-
-  return sum;
-};
 
 describe('Add operation', () => {
   beforeEach(() => {
