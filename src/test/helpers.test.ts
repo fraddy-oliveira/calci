@@ -2,7 +2,7 @@ import {expect} from 'chai';
 
 import {performance} from 'perf_hooks';
 
-import {toggleSign, normalize} from '../core/helpers';
+import {toggleSign, normalize, addToVerify} from '../core/helpers';
 
 let startTime: number = 0;
 
@@ -114,6 +114,22 @@ describe('Normalize number', () => {
 
     it('12423dd123 is illegal', () => {
       expect(() => normalize('12423dd123')).to.throw('Illegal number');
+    });
+  });
+});
+
+describe('Verify add operation in test cases', () => {
+  describe('positive numbers', () => {
+    it('Sum should be 1254', () => {
+      const nums = ['11', '553', '234', '456'];
+
+      expect(addToVerify(nums)).to.equal('1254');
+    });
+
+    it('Sum should be 234928765', () => {
+      const nums = ['45', '234234', '3452', '3456', '232342344', '2345234'];
+
+      expect(addToVerify(nums)).to.equal('234928765');
     });
   });
 });
