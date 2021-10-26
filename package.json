@@ -1,11 +1,11 @@
 {
-  "name": "calci",
+  "name": "@olive/calci",
   "version": "0.0.1",
   "description": "Provides interface to perform calculation on huge numbers",
   "homepage": "https://github.com/fraddy-oliveira/calci#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fraddy-oliveira/calci"
+    "url": "git+https://github.com/fraddy-oliveira/calci.git"
   },
   "main": "./lib/calci.js",
   "files": [
@@ -39,5 +39,11 @@
   },
   "engines": {
     "node": ">=12.4.0"
+  },
+  "bugs": {
+    "url": "https://github.com/fraddy-oliveira/calci/issues"
+  },
+  "directories": {
+    "lib": "lib"
   }
 }
