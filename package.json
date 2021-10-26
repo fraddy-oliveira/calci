@@ -16,7 +16,7 @@
     "lint": "eslint .",
     "build": "rimraf ./lib/* && tsc -b",
     "clean:report": "rimraf ./test-report/*",
-    "postinstall": "husky install"
+    "prepare": "husky install"
   },
   "author": "Fraddy Oliveira <fraddy.dev@gmail.com>",
   "license": "MIT",
