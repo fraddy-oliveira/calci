@@ -12,7 +12,8 @@
     "lib/**/*"
   ],
   "scripts": {
-    "test": "npm run clean:report && npm run build && mocha './lib/test/**/*.js'",
+    "test": "mocha './lib/test/**/*.js'",
+    "watch": "tsc -w",
     "lint": "eslint .",
     "build": "rimraf ./lib/* && tsc -b",
     "clean:report": "rimraf ./test-report/*",

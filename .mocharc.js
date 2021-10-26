@@ -1,6 +1,5 @@
 module.exports = {
   diff: true,
-  require: ['mochawesome/register'],
   reporter: 'mochawesome',
   'reporter-option': ['reportDir=test-report', 'reportFilename=report'],
   slow: '5',
