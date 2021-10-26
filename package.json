@@ -16,7 +16,6 @@
     "watch": "tsc -w",
     "lint": "eslint .",
     "build": "rimraf ./lib/* && tsc -b",
-    "clean:report": "rimraf ./test-report/*",
     "prepare": "husky install"
   },
   "author": "Fraddy Oliveira <fraddy.dev@gmail.com>",
