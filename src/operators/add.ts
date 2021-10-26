@@ -56,12 +56,12 @@ export const add = (inputNumOne: string, inputNumTwo: string) => {
  *    @params {array} numArr - list of numbers.
  *    @return addition of numbers.
  */
-export const addArray = (numArr: Array<string>) => {
+export const addArray = (numArr: Array<any>): string => {
   let ret = '';
   if (Array.isArray(numArr) && numArr.length > 0) {
     [ret] = numArr;
     for (let i = 1; i < numArr.length; ) {
-      ret = add(numArr[i], ret);
+      ret = add(String(numArr[i]), String(ret));
       i += 1;
     }
   }
