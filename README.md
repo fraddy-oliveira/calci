@@ -18,6 +18,12 @@ The library is still under development and testing. Not suitable for Production 
 
 ## Getting Started
 
+## Installation
+
+```cmd
+npm install --save @fraddy/calci
+```
+
 ### How to use Calci ?
 
 ```js
