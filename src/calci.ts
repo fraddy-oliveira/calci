@@ -6,13 +6,15 @@ import * as multiply from './operators/mul';
 
 import * as subtraction from './operators/sub';
 
-export const lt = (inputNumOne: unknown, inputNumTwo: unknown) =>
+import { UserInputType } from './core/interfaces';
+
+export const lt = (inputNumOne: UserInputType, inputNumTwo: UserInputType) =>
   comparison.lt(String(inputNumOne), String(inputNumTwo));
 
-export const add = (inputNumOne: unknown, inputNumTwo: unknown) =>
+export const add = (inputNumOne: UserInputType, inputNumTwo: UserInputType) =>
   addition.add(String(inputNumOne), String(inputNumTwo));
 
-export const addFromArray = (array: any) => {
+export const addFromArray = (array: Array<UserInputType>) => {
   if (!Array.isArray(array)) {
     throw new Error('Input should be array.');
   }
@@ -20,8 +22,8 @@ export const addFromArray = (array: any) => {
   return addition.addArray(array);
 };
 
-export const mul = (inputNumOne: unknown, inputNumTwo: unknown) =>
+export const mul = (inputNumOne: UserInputType, inputNumTwo: UserInputType) =>
   multiply.mul(String(inputNumOne), String(inputNumTwo));
 
-export const sub = (inputNumOne: unknown, inputNumTwo: unknown) =>
+export const sub = (inputNumOne: UserInputType, inputNumTwo: UserInputType) =>
   subtraction.sub(String(inputNumOne), String(inputNumTwo));
