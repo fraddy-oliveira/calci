@@ -21,7 +21,7 @@ The library is still under development and testing. Not suitable for Production 
 ## Installation
 
 ```cmd
-npm install --save @fraddy/calci
+npm install --save sci-calci
 ```
 
 ### How to use Calci ?
@@ -29,7 +29,7 @@ npm install --save @fraddy/calci
 ```js
 const assert = require('assert');
 
-const {add, sub, mul, addFromArray, lt} = require('@fraddy/calci');
+const {add, sub, mul, addFromArray, lt} = require('sci-calci');
 
 assert.strictEqual(
   add('95857458950595857575789506', '969685885748595050059484'),
