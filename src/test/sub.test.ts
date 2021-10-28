@@ -1,26 +1,8 @@
-import {expect} from 'chai';
+import { expect } from 'chai';
 
-import {performance} from 'perf_hooks';
-
-import {sub} from '../calci';
-
-let startTime: number = 0;
-
-let debug = false;
+import { sub } from '../calci';
 
 describe('subtract (sub)', () => {
-  beforeEach(() => {
-    startTime = performance.now();
-  });
-
-  afterEach(() => {
-    if (debug) {
-      // print seconds required to execute each test case.
-      console.log(`timediff: ${performance.now() - startTime}`);
-    }
-    startTime = 0;
-  });
-
   describe('two positive numbers', () => {
     it('#1', () => {
       expect(sub('60', '90')).to.equal('-30');

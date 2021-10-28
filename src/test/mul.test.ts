@@ -1,26 +1,8 @@
-import {expect} from 'chai';
+import { expect } from 'chai';
 
-import {performance} from 'perf_hooks';
-
-import {mul} from '../calci';
-
-let startTime: number = 0;
-
-let debug = false;
+import { mul } from '../calci';
 
 describe('multiply operation', () => {
-  beforeEach(() => {
-    startTime = performance.now();
-  });
-
-  afterEach(() => {
-    if (debug) {
-      // print seconds required to execute each test case.
-      console.log(`timediff: ${performance.now() - startTime}`);
-    }
-    startTime = 0;
-  });
-
   describe('first number negative and second number positive', () => {
     it('#1', () => {
       expect(mul('-12', '12')).to.equal('-144');
@@ -87,8 +69,8 @@ describe('multiply operation', () => {
     let numTwo = '0';
 
     beforeEach(() => {
-      numOne = parseInt(Math.random() * 100000 + '', 10) + '';
-      numTwo = parseInt(Math.random() * 1000 + '', 10) + '';
+      numOne = `${parseInt(`${Math.random() * 100000}`, 10)}`;
+      numTwo = `${parseInt(`${Math.random() * 1000}`, 10)}`;
     });
 
     afterEach(() => {

@@ -1,12 +1,12 @@
-import {ADDITION_UNIT} from '../core/defaults';
+import { ADDITION_UNIT } from '../core/defaults';
 
-import {normalize, toggleSign, abs} from '../core/helpers';
+import { normalize, toggleSign, abs } from '../core/helpers';
 
-import {isNegative, isPositive, isZero} from '../core/validation';
+import { isNegative, isPositive, isZero } from '../core/validation';
 
-import {OperationOptionsStructure} from '../core/interfaces';
+import { OperationOptionsStructure } from '../core/interfaces';
 
-import {mulPositive} from '../core/signedOperations';
+import { mulPositive } from '../core/signedOperations';
 
 /**
  *    @Name: mul
@@ -18,13 +18,13 @@ import {mulPositive} from '../core/signedOperations';
 export const mul = (inputNumOne: string, inputNumTwo: string) => {
   let ret = '';
 
-  const option: OperationOptionsStructure = {additionUnit: ADDITION_UNIT};
+  const option: OperationOptionsStructure = { additionUnit: ADDITION_UNIT };
 
   const numOne = normalize(inputNumOne);
   const numTwo = normalize(inputNumTwo);
   if (
-    (isNegative(numOne) && isNegative(numTwo)) ||
-    (isPositive(numOne) && isPositive(numTwo))
+    (isNegative(numOne) && isNegative(numTwo))
+    || (isPositive(numOne) && isPositive(numTwo))
   ) {
     ret = mulPositive(abs(numOne), abs(numTwo), option);
   } else {

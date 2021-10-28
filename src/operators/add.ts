@@ -1,14 +1,14 @@
-import {ADDITION_UNIT} from '../core/defaults';
+import { ADDITION_UNIT } from '../core/defaults';
 
-import {normalize, toggleSign, abs} from '../core/helpers';
+import { normalize, toggleSign, abs } from '../core/helpers';
 
-import {lt} from './comparison';
+import { lt } from './comparison';
 
-import {isNegative, isPositive} from '../core/validation';
+import { isNegative, isPositive } from '../core/validation';
 
-import {OperationOptionsStructure} from '../core/interfaces';
+import { OperationOptionsStructure } from '../core/interfaces';
 
-import {addPositive, subPositive} from '../core/signedOperations';
+import { addPositive, subPositive } from '../core/signedOperations';
 
 /**
  *    @Name: add
@@ -24,7 +24,7 @@ export const add = (inputNumOne: string, inputNumTwo: string) => {
 
   let numTwo = inputNumTwo;
 
-  const option: OperationOptionsStructure = {additionUnit: ADDITION_UNIT};
+  const option: OperationOptionsStructure = { additionUnit: ADDITION_UNIT };
 
   numOne = normalize(numOne);
 
@@ -60,7 +60,7 @@ export const addArray = (numArr: Array<any>): string => {
   let ret = '';
   if (Array.isArray(numArr) && numArr.length > 0) {
     [ret] = numArr;
-    for (let i = 1; i < numArr.length; ) {
+    for (let i = 1; i < numArr.length;) {
       ret = add(String(numArr[i]), String(ret));
       i += 1;
     }

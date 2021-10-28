@@ -1,6 +1,6 @@
-import {normalize, toggleSign} from '../core/helpers';
+import { normalize, toggleSign } from '../core/helpers';
 
-import {add} from './add';
+import { add } from './add';
 
 /**
  *    @Name: sub
@@ -9,6 +9,6 @@ import {add} from './add';
  *    @params {string} inputNumTwo - number for subtraction.
  *    @return addition of numbers.
  */
-export const sub = (inputNumOne: string, inputNumTwo: string) => {
+export const sub = function sub(inputNumOne: string, inputNumTwo: string) {
   return add(normalize(inputNumOne), toggleSign(normalize(inputNumTwo)));
 };

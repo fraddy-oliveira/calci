@@ -1,26 +1,8 @@
-import {expect} from 'chai';
+import { expect } from 'chai';
 
-import {performance} from 'perf_hooks';
-
-import {toggleSign, normalize, addToVerify} from '../core/helpers';
-
-let startTime: number = 0;
-
-let debug = false;
+import { toggleSign, normalize, addToVerify } from '../core/helpers';
 
 describe('Toggle sign of number', () => {
-  beforeEach(() => {
-    startTime = performance.now();
-  });
-
-  afterEach(() => {
-    if (debug) {
-      // print seconds required to execute each test case.
-      console.log(`timediff: ${performance.now() - startTime}`);
-    }
-    startTime = 0;
-  });
-
   describe('Toggle positive number', () => {
     it('12423123 should be -12423123', () => {
       expect(toggleSign('12423123')).to.equal('-12423123');
@@ -47,18 +29,6 @@ describe('Toggle sign of number', () => {
 });
 
 describe('Normalize number', () => {
-  beforeEach(() => {
-    startTime = performance.now();
-  });
-
-  afterEach(() => {
-    if (debug) {
-      // print seconds required to execute each test case.
-      console.log(`timediff: ${performance.now() - startTime}`);
-    }
-    startTime = 0;
-  });
-
   describe('positive number', () => {
     it('+12423123  should normalize to 12423123', () => {
       expect(normalize('+12423123 ')).to.equal('12423123');

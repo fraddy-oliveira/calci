@@ -1,4 +1,4 @@
-import {RE_IS_NUMBER, RE_IS_ZERO} from './patterns';
+import { RE_IS_NUMBER, RE_IS_ZERO } from './patterns';
 
 /**
  *    @Name: isNumber

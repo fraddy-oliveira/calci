@@ -6,9 +6,9 @@ import {
   multiplier,
 } from './helpers';
 
-import {isZero} from './validation';
+import { isZero } from './validation';
 
-import {OperationOptionsStructure} from './interfaces';
+import { OperationOptionsStructure } from './interfaces';
 
 export const addPositive = (
   numOne: string,
@@ -22,11 +22,11 @@ export const addPositive = (
   numTwo = numTwo.trim();
   carry = carry.trim();
 
-  numOne = numOne ? numOne : '0';
-  numTwo = numTwo ? numTwo : '0';
-  carry = carry ? carry : '0';
+  numOne = numOne || '0';
+  numTwo = numTwo || '0';
+  carry = carry || '0';
 
-  const additionUnit = option.additionUnit;
+  const { additionUnit } = option;
 
   if (numOne.length > numTwo.length) {
     numTwo = addLeftPadding(numTwo, numOne.length - numTwo.length);
@@ -41,7 +41,7 @@ export const addPositive = (
 
   const computeUnits = Math.ceil(numOne.length / additionUnit);
 
-  for (let j = 0; j < computeUnits; ) {
+  for (let j = 0; j < computeUnits;) {
     let adderRst = adder(
       numOne.slice(stringSplitLower, stringSplitUp),
       numTwo.slice(stringSplitLower, stringSplitUp),
@@ -54,9 +54,8 @@ export const addPositive = (
 
     carry = adderRst.slice(0, adderRst.length - additionUnit);
 
-    resultSum =
-      adderRst.slice(adderRst.length - additionUnit, adderRst.length) +
-      resultSum;
+    resultSum = adderRst.slice(adderRst.length - additionUnit, adderRst.length)
+      + resultSum;
 
     stringSplitUp -= additionUnit;
     stringSplitLower -= additionUnit;
@@ -113,7 +112,7 @@ export const subPositive = (
 
   let carry = 0;
 
-  for (let j = 0; j < Math.ceil(numOne.length / additionUnit); ) {
+  for (let j = 0; j < Math.ceil(numOne.length / additionUnit);) {
     let unitOne = `${numOne.slice(stringSplitLower, stringSplitUp)}`;
     let unitTwo = `${numTwo.slice(stringSplitLower, stringSplitUp)}`;
     let unitRst = '';
@@ -132,8 +131,8 @@ export const subPositive = (
 
     if (carry === 1) {
       unitRst = `${
-        parseInt(`1${addLeftPadding('', additionUnit)}`, 10) -
-        parseInt(unitRst, 10)
+        parseInt(`1${addLeftPadding('', additionUnit)}`, 10)
+        - parseInt(unitRst, 10)
       }`;
     }
 
@@ -199,7 +198,7 @@ export const mulPositive = (
 
   numTwoLowPoint = numTwoLowPoint < 0 ? 0 : numTwoLowPoint;
 
-  for (let i = 0; i < Math.ceil(numTwo.length / additionUnit); ) {
+  for (let i = 0; i < Math.ceil(numTwo.length / additionUnit);) {
     jLoopResult = '';
     numOneLowPoint = numOne.length - additionUnit;
     numOneUpPoint = numOne.length;
@@ -208,7 +207,7 @@ export const mulPositive = (
 
     jLoopRightPadding = 0;
 
-    for (let j = 0; j < Math.ceil(numOne.length / additionUnit); ) {
+    for (let j = 0; j < Math.ceil(numOne.length / additionUnit);) {
       jLoopRightPadding += j > 0 ? additionUnit : 0;
 
       jLoopResult = addPositive(

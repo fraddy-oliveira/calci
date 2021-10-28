@@ -1,6 +1,6 @@
-import {RE_IS_NUMBER, RE_IS_ZERO} from './patterns';
+import { RE_IS_NUMBER, RE_IS_ZERO } from './patterns';
 
-import {isNegative} from './validation';
+import { isNegative } from './validation';
 
 /**
  *    @Name: normalize
@@ -30,13 +30,13 @@ export const normalize = (inputNum: string) => {
 
 //  @TODO : convert adders inputs to number type.
 export const adder = (a: string, b: string, carry: string): string => {
-  let num1 = Number.isNaN(parseInt(a, 10)) ? '0' : parseInt(a, 10) + '';
-  let num2 = Number.isNaN(parseInt(b, 10)) ? '0' : parseInt(b, 10) + '';
-  let numCarry = Number.isNaN(parseInt(carry, 10))
+  const num1 = Number.isNaN(parseInt(a, 10)) ? '0' : `${parseInt(a, 10)}`;
+  const num2 = Number.isNaN(parseInt(b, 10)) ? '0' : `${parseInt(b, 10)}`;
+  const numCarry = Number.isNaN(parseInt(carry, 10))
     ? '0'
-    : parseInt(carry, 10) + '';
+    : `${parseInt(carry, 10)}`;
 
-  return (parseInt(num1) + parseInt(num2) + parseInt(numCarry)).toString();
+  return (parseInt(num1, 10) + parseInt(num2, 10) + parseInt(numCarry, 10)).toString();
 };
 
 export const subtractor = (a: string, b: string): string =>
@@ -44,8 +44,8 @@ export const subtractor = (a: string, b: string): string =>
 
 export const multiplier = (a: string, b: string, carry: string): string =>
   (
-    (a ? parseInt(a, 10) : 0) * (b ? parseInt(b, 10) : 0) +
-    (carry ? parseInt(carry, 10) : 0)
+    (a ? parseInt(a, 10) : 0) * (b ? parseInt(b, 10) : 0)
+    + (carry ? parseInt(carry, 10) : 0)
   ).toString();
 
 export const addPadding = (
@@ -55,7 +55,7 @@ export const addPadding = (
 ) => {
   let numString = '';
 
-  Array.from({length: paddingLength}, () => {
+  Array.from({ length: paddingLength }, () => {
     numString += '0';
 
     return 0;

@@ -1,26 +1,8 @@
-import {expect} from 'chai';
+import { expect } from 'chai';
 
-import {performance} from 'perf_hooks';
-
-import {isNumber, isZero} from '../core/validation';
-
-let startTime: number = 0;
-
-let debug = false;
+import { isNumber, isZero } from '../core/validation';
 
 describe('Test Validation functionality', () => {
-  beforeEach(() => {
-    startTime = performance.now();
-  });
-
-  afterEach(() => {
-    if (debug) {
-      // print seconds required to execute each test case.
-      console.log(`timediff: ${performance.now() - startTime}`);
-    }
-    startTime = 0;
-  });
-
   describe('isNumber', () => {
     describe('positive no with out sign', () => {
       it('#1', () => {
