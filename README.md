@@ -1,6 +1,6 @@
-# Calci
+# Sci-Calci
 
-Calci is a library which allows to do operations on huge digits of integer numbers that cannot be handled by pure JavaScript.
+Sci-Calci is a library which allows to do operations on huge digits of integer numbers that cannot be handled by pure JavaScript.
 
 ## Experimental code
 
@@ -24,7 +24,7 @@ The library is still under development and testing. Not suitable for Production 
 npm install --save sci-calci
 ```
 
-### How to use Calci ?
+### How to use Sci-Calci ?
 
 ```js
 const assert = require('assert');
