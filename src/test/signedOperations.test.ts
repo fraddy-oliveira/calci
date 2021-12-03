@@ -1,15 +1,20 @@
-import { readFile } from 'fs/promises';
+import { readFile } from 'fs';
 import path from 'path';
+import { promisify } from 'util';
 
 import { expect } from 'chai';
 import { addPositive } from '../core/signedOperations';
 import { ADDITION_UNIT } from '../core/defaults';
 
+const readFileAsync = promisify(readFile);
+
 describe('addPositive', () => {
-  it('Verify test results from file', async () => {
+  it('Verify test results from file', async function () {
+    this.timeout(2000);
+
     const options = { additionUnit: ADDITION_UNIT };
 
-    const fileContent = await readFile(
+    const fileContent = await readFileAsync(
       path.resolve(__dirname, '../../test-data/addPositive.json'),
       'utf-8',
     );
