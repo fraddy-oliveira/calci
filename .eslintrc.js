@@ -23,6 +23,7 @@ module.exports = {
     'no-unused-expressions': ['off'],
     'import/prefer-default-export': ['off'],
     'no-param-reassign': ['off'],
+    'func-names': ['off'],
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
   },
 };

@@ -11,68 +11,111 @@ import { isZero } from './validation';
 import { OperationOptionsStructure } from './interfaces';
 
 export const addPositive = (
-  numOne: string,
-  numTwo: string,
-  carry: string,
+  numOne: string = '0',
+  numTwo: string = '0',
+  carry: string = '0',
   option: OperationOptionsStructure,
-) => {
+): string => {
   let resultSum = '';
 
-  numOne = numOne.trim();
-  numTwo = numTwo.trim();
-  carry = carry.trim();
-
-  numOne = numOne || '0';
-  numTwo = numTwo || '0';
-  carry = carry || '0';
+  numOne = numOne.trim() || '0';
+  numTwo = numTwo.trim() || '0';
+  carry = carry.trim() || '0';
 
   const { additionUnit } = option;
 
-  if (numOne.length > numTwo.length) {
-    numTwo = addLeftPadding(numTwo, numOne.length - numTwo.length);
-  } else if (numOne.length < numTwo.length) {
-    numOne = addLeftPadding(numOne, numTwo.length - numOne.length);
-  }
+  // if (numOne.length > numTwo.length) {
+  //   numTwo = addLeftPadding(numTwo, numOne.length - numTwo.length);
+  // } else if (numOne.length < numTwo.length) {
+  //   numOne = addLeftPadding(numOne, numTwo.length - numOne.length);
+  // }
 
-  let stringSplitUp = numOne.length;
-  let stringSplitLower = numOne.length - additionUnit;
+  // let stringSplitUp = numOne.length;
+  // let stringSplitLower = numOne.length - additionUnit;
 
-  stringSplitLower = stringSplitLower < 0 ? 0 : stringSplitLower;
+  // stringSplitLower = stringSplitLower < 0 ? 0 : stringSplitLower;
 
   const computeUnits = Math.ceil(numOne.length / additionUnit);
 
-  for (let j = 0; j < computeUnits;) {
-    let adderRst = adder(
-      numOne.slice(stringSplitLower, stringSplitUp),
-      numTwo.slice(stringSplitLower, stringSplitUp),
+  let numOneUpPoint: number = numOne.length;
+
+  let numOneLowPoint: number = numOne.length - additionUnit;
+
+  let numTwoUpPoint: number = numTwo.length;
+
+  let numTwoLowPoint: number = numTwo.length - additionUnit;
+
+  for (let j = 0; j < computeUnits; j += 1) {
+    if (numOneUpPoint <= 0 && numTwoUpPoint <= 0) {
+      break;
+    } else if (numOneUpPoint <= 0 || numTwoUpPoint <= 0) {
+      if (parseInt(carry, 10) <= 0) {
+        break;
+      }
+
+      if (numOneUpPoint > 0) {
+        numTwo = carry;
+      }
+
+      if (numTwoUpPoint > 0) {
+        numOne = carry;
+      }
+    }
+
+    const adderRst = adder(
+      numOne.slice(numOneLowPoint < 0 ? 0 : numOneLowPoint, numOneUpPoint),
+      numTwo.slice(numTwoLowPoint < 0 ? 0 : numTwoLowPoint, numTwoUpPoint),
       carry,
     );
 
-    if (adderRst.length < additionUnit) {
-      adderRst = addLeftPadding(adderRst, additionUnit - adderRst.length);
+    if (adderRst.length > additionUnit) {
+      carry = adderRst.slice(0, adderRst.length - additionUnit);
+
+      resultSum = adderRst.slice(adderRst.length - additionUnit, adderRst.length) + resultSum;
+    } else {
+      carry = '0';
+
+      if (adderRst.length < additionUnit) {
+        resultSum = addLeftPadding(adderRst, additionUnit - adderRst.length) + resultSum;
+      } else {
+        resultSum = adderRst + resultSum;
+      }
     }
 
-    carry = adderRst.slice(0, adderRst.length - additionUnit);
+    // if (adderRst.length < additionUnit) {
+    //   adderRst = addLeftPadding(adderRst, additionUnit - adderRst.length);
+    // }
 
-    resultSum = adderRst.slice(adderRst.length - additionUnit, adderRst.length)
-      + resultSum;
+    // carry = adderRst.slice(0, adderRst.length - additionUnit);
 
-    stringSplitUp -= additionUnit;
-    stringSplitLower -= additionUnit;
-    stringSplitLower = stringSplitLower < 0 ? 0 : stringSplitLower;
-    if (stringSplitUp <= 0) {
-      break;
-    }
-    j += 1;
+    // stringSplitUp -= additionUnit;
+    // stringSplitLower -= additionUnit;
+    // stringSplitLower = stringSplitLower < 0 ? 0 : stringSplitLower;
+
+    numOneUpPoint -= additionUnit;
+    numOneLowPoint -= additionUnit;
+    numTwoUpPoint -= additionUnit;
+    numTwoLowPoint -= additionUnit;
+
+    // j += 1;
   }
 
-  resultSum = `${carry + resultSum}`.replace(/^0+/g, '');
+  let extraNumPart = '0';
 
-  resultSum = resultSum || '0';
+  if (numOneUpPoint > 0) {
+    extraNumPart = numOne.slice(0, numOneUpPoint);
+  } else if (numTwoUpPoint > 0) {
+    extraNumPart = numTwo.slice(0, numTwoUpPoint);
+  }
 
-  return resultSum;
+  if (parseInt(carry, 10) > 0) {
+    extraNumPart = addPositive(extraNumPart, carry, '0', option);
+  }
+
+  resultSum = extraNumPart + resultSum;
+
+  return resultSum.replace(/^0+/g, '') || '0';
 };
-
 export const subPositive = (
   inputNumOne: string,
   inputNumTwo: string,
@@ -130,10 +173,7 @@ export const subPositive = (
     unitRst = subtractor(unitOne, unitTwo);
 
     if (carry === 1) {
-      unitRst = `${
-        parseInt(`1${addLeftPadding('', additionUnit)}`, 10)
-        - parseInt(unitRst, 10)
-      }`;
+      unitRst = `${parseInt(`1${addLeftPadding('', additionUnit)}`, 10) - parseInt(unitRst, 10)}`;
     }
 
     if (unitRst.length < additionUnit) {
