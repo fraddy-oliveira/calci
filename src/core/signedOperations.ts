@@ -24,17 +24,6 @@ export const addPositive = (
 
   const { additionUnit } = option;
 
-  // if (numOne.length > numTwo.length) {
-  //   numTwo = addLeftPadding(numTwo, numOne.length - numTwo.length);
-  // } else if (numOne.length < numTwo.length) {
-  //   numOne = addLeftPadding(numOne, numTwo.length - numOne.length);
-  // }
-
-  // let stringSplitUp = numOne.length;
-  // let stringSplitLower = numOne.length - additionUnit;
-
-  // stringSplitLower = stringSplitLower < 0 ? 0 : stringSplitLower;
-
   const computeUnits = Math.ceil(numOne.length / additionUnit);
 
   let numOneUpPoint: number = numOne.length;
@@ -82,22 +71,10 @@ export const addPositive = (
       }
     }
 
-    // if (adderRst.length < additionUnit) {
-    //   adderRst = addLeftPadding(adderRst, additionUnit - adderRst.length);
-    // }
-
-    // carry = adderRst.slice(0, adderRst.length - additionUnit);
-
-    // stringSplitUp -= additionUnit;
-    // stringSplitLower -= additionUnit;
-    // stringSplitLower = stringSplitLower < 0 ? 0 : stringSplitLower;
-
     numOneUpPoint -= additionUnit;
     numOneLowPoint -= additionUnit;
     numTwoUpPoint -= additionUnit;
     numTwoLowPoint -= additionUnit;
-
-    // j += 1;
   }
 
   let extraNumPart = '0';
@@ -116,6 +93,7 @@ export const addPositive = (
 
   return resultSum.replace(/^0+/g, '') || '0';
 };
+
 export const subPositive = (
   inputNumOne: string,
   inputNumTwo: string,
