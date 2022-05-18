@@ -8,7 +8,7 @@ The library is still under development and testing. Not suitable for Production 
 
 ## Prerequisite
 
-- Node version >=12.4.0
+- Node version >=14.0.0
 - Can be consumed as CommonJs or ES module
 
 ## Support
