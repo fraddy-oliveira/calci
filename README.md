@@ -1,4 +1,4 @@
-# Sci-Calci 
+# Sci-Calci
 
 Sci-Calci is a library which allows to do operations on huge digits of integer numbers that cannot be handled by pure JavaScript.
 
