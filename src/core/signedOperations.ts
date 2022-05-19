@@ -4,11 +4,11 @@ import {
   subtractor,
   addRightPadding,
   multiplier,
-} from './helpers';
+} from '../utils/helpers';
 
 import { isZero } from './validation';
 
-import { OperationOptionsStructure } from './interfaces';
+import { OperationOptionsStructure } from '../interfaces/common';
 
 export const addPositive = (
   numOne: string = '0',

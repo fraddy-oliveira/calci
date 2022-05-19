@@ -6,7 +6,7 @@ import * as multiply from './operators/mul';
 
 import * as subtraction from './operators/sub';
 
-import { UserInputType } from './core/interfaces';
+import { UserInputType } from './interfaces/common';
 
 export const lt = (inputNumOne: UserInputType, inputNumTwo: UserInputType) =>
   comparison.lt(String(inputNumOne), String(inputNumTwo));

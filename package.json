@@ -12,7 +12,7 @@
     "lib/**/*"
   ],
   "scripts": {
-    "test": "mocha './lib/test/**/*.js'",
+    "test": "mocha './lib/**/*.test.js'",
     "watch": "tsc -w --sourceMap",
     "lint": "eslint -c ./.eslintrc.js './src/**/*.{js,ts}'",
     "build": "rimraf ./lib/* && tsc -b",

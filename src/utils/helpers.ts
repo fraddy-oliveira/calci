@@ -1,6 +1,6 @@
-import { RE_IS_NUMBER, RE_IS_ZERO } from './patterns';
+import { RE_IS_NUMBER, RE_IS_ZERO } from '../core/patterns';
 
-import { isNegative } from './validation';
+import { isNegative } from '../core/validation';
 
 /**
  *    @Name: normalize
