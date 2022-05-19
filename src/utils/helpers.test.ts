@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { toggleSign, normalize, addToVerify } from '../core/helpers';
+import { toggleSign, normalize, addToVerify } from '../utils/helpers';
 
 describe('Toggle sign of number', () => {
   describe('Toggle positive number', () => {

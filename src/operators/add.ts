@@ -1,12 +1,12 @@
 import { ADDITION_UNIT } from '../core/defaults';
 
-import { normalize, toggleSign, abs } from '../core/helpers';
+import { normalize, toggleSign, abs } from '../utils/helpers';
 
 import { lt } from './comparison';
 
 import { isNegative, isPositive } from '../core/validation';
 
-import { OperationOptionsStructure } from '../core/interfaces';
+import { OperationOptionsStructure } from '../interfaces/common';
 
 import { addPositive, subPositive } from '../core/signedOperations';
 

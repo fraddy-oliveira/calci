@@ -1,6 +1,6 @@
 import { isZero, isNegative, isPositive } from '../core/validation';
 
-import { normalize, addLeftPadding, abs } from '../core/helpers';
+import { normalize, addLeftPadding, abs } from '../utils/helpers';
 
 export const eq = (numOne: string, numTwo: string) =>
   normalize(numOne) === normalize(numTwo);
