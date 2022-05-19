@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { add, addFromArray } from '../calci';
 
-import { addToVerify } from '../core/helpers';
+import { addToVerify } from '../utils/helpers';
 
 describe('Add operation', () => {
   describe('Add two numbers', () => {
