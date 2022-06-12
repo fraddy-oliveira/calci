@@ -6,7 +6,7 @@ import * as mockAddPositive from './fixtures/mockAddPositive.json';
 describe('addPositive', () => {
   type mockAddPositiveI = {list: {numOne:string, numTwo:string, result: string}[]}
 
-  it('Verify test results from mockAddPositive.json file', async () => {
+  it('Verify test results from mockAddPositive.json file', () => {
     const options = { additionUnit: ADDITION_UNIT };
 
     (mockAddPositive as mockAddPositiveI).list.forEach((item) => {
