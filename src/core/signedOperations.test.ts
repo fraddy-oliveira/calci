@@ -14,7 +14,7 @@ describe('addPositive', () => {
 
       expect(result).to.be.equal(item.result);
     });
-  });
+  }).timeout(1500);
 
   describe('Special cases for Addition operation', () => {
     it('Expect to sum large numbers', () => {
