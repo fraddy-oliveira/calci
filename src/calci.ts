@@ -1,29 +1,29 @@
-import * as comparison from './operators/comparison';
+import { lt as lessThan } from './operators/comparison';
 
-import * as addition from './operators/add';
+import { add as addition, addArray } from './operators/add';
 
-import * as multiply from './operators/mul';
+import { multiply } from './operators/multiply';
 
-import * as subtraction from './operators/sub';
+import { subtract } from './operators/subtract';
 
 import { UserInputType } from './interfaces/common';
 
 export const lt = (inputNumOne: UserInputType, inputNumTwo: UserInputType) =>
-  comparison.lt(String(inputNumOne), String(inputNumTwo));
+  lessThan(String(inputNumOne), String(inputNumTwo));
 
 export const add = (inputNumOne: UserInputType, inputNumTwo: UserInputType) =>
-  addition.add(String(inputNumOne), String(inputNumTwo));
+  addition(String(inputNumOne), String(inputNumTwo));
 
 export const addFromArray = (array: Array<UserInputType>) => {
   if (!Array.isArray(array)) {
     throw new Error('Input should be array.');
   }
 
-  return addition.addArray(array);
+  return addArray(array);
 };
 
 export const mul = (inputNumOne: UserInputType, inputNumTwo: UserInputType) =>
-  multiply.mul(String(inputNumOne), String(inputNumTwo));
+  multiply(String(inputNumOne), String(inputNumTwo));
 
 export const sub = (inputNumOne: UserInputType, inputNumTwo: UserInputType) =>
-  subtraction.sub(String(inputNumOne), String(inputNumTwo));
+  subtract(String(inputNumOne), String(inputNumTwo));

@@ -9,26 +9,29 @@ import { OperationOptionsStructure } from '../interfaces/common';
 import { mulPositive } from '../core/signedOperations';
 
 /**
- *    @Name: mul
+ *    @Name: multiply
  *    @Description: Multiply two numbers.
  *    @params {string} inputNumOne.
  *    @params {string} inputNumTwo.
  *    @return multiplication of numbers.
  */
-export const mul = (inputNumOne: string, inputNumTwo: string) => {
+export const multiply = (inputNumOne: string, inputNumTwo: string) => {
+  const numOne = normalize(inputNumOne);
+
+  const numTwo = normalize(inputNumTwo);
+
   let ret = '';
 
   const option: OperationOptionsStructure = { additionUnit: ADDITION_UNIT };
 
-  const numOne = normalize(inputNumOne);
-  const numTwo = normalize(inputNumTwo);
+  ret = mulPositive(abs(numOne), abs(numTwo), option);
+
+  //  Check if both numbers have different sign
   if (
-    (isNegative(numOne) && isNegative(numTwo))
-    || (isPositive(numOne) && isPositive(numTwo))
+    (isNegative(numOne) && isPositive(numTwo))
+    || (isPositive(numOne) && isNegative(numTwo))
   ) {
-    ret = mulPositive(abs(numOne), abs(numTwo), option);
-  } else {
-    ret = mulPositive(abs(numOne), abs(numTwo), option);
+    //  TODO: include check for zero in toggleSign function
     if (!isZero(ret)) {
       ret = toggleSign(ret);
     }

@@ -1,27 +1,27 @@
 import { expect } from 'chai';
 
-import { mul } from '../calci';
+import { multiply } from './multiply';
 
 describe('multiply operation', () => {
   describe('first number negative and second number positive', () => {
     it('#1', () => {
-      expect(mul('-12', '12')).to.equal('-144');
+      expect(multiply('-12', '12')).to.equal('-144');
     });
 
     it('#2', () => {
-      expect(mul('-000', '00001')).to.equal('0');
+      expect(multiply('-000', '00001')).to.equal('0');
     });
 
     it('#3', () => {
-      expect(mul('-000', '0000')).to.equal('0');
+      expect(multiply('-000', '0000')).to.equal('0');
     });
 
     it('#4', () => {
-      expect(mul('-100', '100')).to.equal('-10000');
+      expect(multiply('-100', '100')).to.equal('-10000');
     });
 
     it('#5', () => {
-      const result = mul(
+      const result = multiply(
         '-872348723947324723947238947293847234732283478234783247893',
         '23489734892374932749237489503485094395555435439584390580',
       );
@@ -32,7 +32,7 @@ describe('multiply operation', () => {
     });
 
     it('#6', () => {
-      const result = mul(
+      const result = multiply(
         '-23489734892374932749237489503485094395555435439584390580',
         '872348723947324723947238947293847234732283478234783247893',
       );
@@ -43,7 +43,7 @@ describe('multiply operation', () => {
     });
 
     it('#7', () => {
-      const result = mul(
+      const result = multiply(
         '-1223489734892374932749237489503485094395555435439584390580',
         '32872348723947324723947238947293847234732283478234783247893',
       );
@@ -54,7 +54,7 @@ describe('multiply operation', () => {
     });
 
     it('#8', () => {
-      const result = mul(
+      const result = multiply(
         '-24213421342342134123412342134123423423333333333333312342421342342421342134234213412341234213412342342333333333333331234242134234',
         '242134213423421341234123421341234234233333333333333123424213423425435345345325325234534',
       );
@@ -63,6 +63,10 @@ describe('multiply operation', () => {
         '-5862897731017895563354347895515829861193226259556387249279481416948511964698067962133914423425726208677270449233028929459679293390385926573835444949407963387414322255794782327739020453173115175416370741420760436956',
       );
     });
+
+    it('#9 Expect to give zero if multiplied by zero', () => {
+      expect(multiply('-1', '0')).to.equal('0');
+    });
   });
   describe('both positive numbers', () => {
     it('#1', () => {
@@ -70,7 +74,7 @@ describe('multiply operation', () => {
       const numTwo = '23452345234523452345';
       const sum = '76108360410998590108249817485999025';
 
-      expect(mul(numOne, numTwo)).to.equal(sum);
+      expect(multiply(numOne, numTwo)).to.equal(sum);
     });
 
     it('#2', () => {
@@ -78,7 +82,7 @@ describe('multiply operation', () => {
       const numTwo = '34534534';
       const sum = '11207266198813881372517282';
 
-      expect(mul(numOne, numTwo)).to.equal(sum);
+      expect(multiply(numOne, numTwo)).to.equal(sum);
     });
 
     it('#3', () => {
@@ -86,7 +90,7 @@ describe('multiply operation', () => {
       const numTwo = '112300006787';
       const sum = '26336985290054171065515';
 
-      expect(mul(numOne, numTwo)).to.equal(sum);
+      expect(multiply(numOne, numTwo)).to.equal(sum);
     });
 
     it('#4', () => {
@@ -94,29 +98,29 @@ describe('multiply operation', () => {
       const numTwo = '040502345';
       const sum = '405023450000040502345';
 
-      expect(mul(numOne, numTwo)).to.equal(sum);
+      expect(multiply(numOne, numTwo)).to.equal(sum);
     });
   });
 
   describe('both numbers negative', () => {
     it('#1', () => {
-      expect(mul('-12', '-12')).to.equal('144');
+      expect(multiply('-12', '-12')).to.equal('144');
     });
 
     it('#2', () => {
-      expect(mul('-000', '-00001')).to.equal('0');
+      expect(multiply('-000', '-00001')).to.equal('0');
     });
 
     it('#3', () => {
-      expect(mul('-000', '-0000')).to.equal('0');
+      expect(multiply('-000', '-0000')).to.equal('0');
     });
 
     it('#4', () => {
-      expect(mul('-100', '-100')).to.equal('10000');
+      expect(multiply('-100', '-100')).to.equal('10000');
     });
 
     it('#5', () => {
-      const result = mul(
+      const result = multiply(
         '-872348723947324723947238947293847234732283478234783247893',
         '-23489734892374932749237489503485094395555435439584390580',
       );
@@ -127,7 +131,7 @@ describe('multiply operation', () => {
     });
 
     it('#6', () => {
-      const result = mul(
+      const result = multiply(
         '-23489734892374932749237489503485094395555435439584390580',
         '-872348723947324723947238947293847234732283478234783247893',
       );
@@ -138,7 +142,7 @@ describe('multiply operation', () => {
     });
 
     it('#7', () => {
-      const result = mul(
+      const result = multiply(
         '-1223489734892374932749237489503485094395555435439584390580',
         '-32872348723947324723947238947293847234732283478234783247893',
       );
@@ -149,7 +153,7 @@ describe('multiply operation', () => {
     });
 
     it('#8', () => {
-      const result = mul(
+      const result = multiply(
         '-24213421342342134123412342134123423423333333333333312342421342342421342134234213412341234213412342342333333333333331234242134234',
         '-242134213423421341234123421341234234233333333333333123424213423425435345345325325234534',
       );
@@ -157,6 +161,12 @@ describe('multiply operation', () => {
       expect(result).to.equal(
         '5862897731017895563354347895515829861193226259556387249279481416948511964698067962133914423425726208677270449233028929459679293390385926573835444949407963387414322255794782327739020453173115175416370741420760436956',
       );
+    });
+  });
+
+  describe('first number positive and second number negative', () => {
+    it('#1 Expect to give zero if multiplied by zero', () => {
+      expect(multiply('1', '0')).to.equal('0');
     });
   });
 });
