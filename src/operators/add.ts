@@ -1,6 +1,6 @@
 import { ADDITION_UNIT } from '../core/defaults';
 
-import { normalize, toggleSign, abs } from '../utils/helpers';
+import { toggleSign, abs } from '../utils/helpers';
 
 import { lt, gt } from './comparison';
 
@@ -17,11 +17,7 @@ import { addPositive, subPositive } from '../core/signedOperations';
  *    @params {string} inputNumTwo - number for addition.
  *    @return addition of numbers.
  */
-export const add = (inputNumOne: string, inputNumTwo: string) => {
-  const numOne = normalize(inputNumOne);
-
-  const numTwo = normalize(inputNumTwo);
-
+export const add = (numOne: string, numTwo: string) => {
   const option: OperationOptionsStructure = { additionUnit: ADDITION_UNIT };
 
   //  If both numbers are negative

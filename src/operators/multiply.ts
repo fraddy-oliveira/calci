@@ -1,6 +1,6 @@
 import { ADDITION_UNIT } from '../core/defaults';
 
-import { normalize, toggleSign, abs } from '../utils/helpers';
+import { toggleSign, abs } from '../utils/helpers';
 
 import { isNegative, isPositive, isZero } from '../core/validation';
 
@@ -15,11 +15,7 @@ import { mulPositive } from '../core/signedOperations';
  *    @params {string} inputNumTwo.
  *    @return multiplication of numbers.
  */
-export const multiply = (inputNumOne: string, inputNumTwo: string) => {
-  const numOne = normalize(inputNumOne);
-
-  const numTwo = normalize(inputNumTwo);
-
+export const multiply = (numOne: string, numTwo: string) => {
   let ret = '';
 
   const option: OperationOptionsStructure = { additionUnit: ADDITION_UNIT };

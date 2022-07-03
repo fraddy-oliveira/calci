@@ -8,11 +8,13 @@ import { subtract } from './operators/subtract';
 
 import { UserInputType } from './interfaces/common';
 
-export const lt = (inputNumOne: UserInputType, inputNumTwo: UserInputType) =>
-  lessThan(String(inputNumOne), String(inputNumTwo));
+import { normalize } from './utils/helpers';
 
-export const add = (inputNumOne: UserInputType, inputNumTwo: UserInputType) =>
-  addition(String(inputNumOne), String(inputNumTwo));
+export const lt = (numOne: UserInputType, numTwo: UserInputType) =>
+  lessThan(normalize(String(numOne)), normalize(String(numTwo)));
+
+export const add = (numOne: UserInputType, numTwo: UserInputType) =>
+  addition(normalize(String(numOne)), normalize(String(numTwo)));
 
 export const addFromArray = (numArr: Array<UserInputType>): string => {
   if (!Array.isArray(numArr)) {
@@ -32,8 +34,8 @@ export const addFromArray = (numArr: Array<UserInputType>): string => {
   return ret;
 };
 
-export const mul = (inputNumOne: UserInputType, inputNumTwo: UserInputType) =>
-  multiply(String(inputNumOne), String(inputNumTwo));
+export const mul = (numOne: UserInputType, numTwo: UserInputType) =>
+  multiply(normalize(String(numOne)), normalize(String(numTwo)));
 
-export const sub = (inputNumOne: UserInputType, inputNumTwo: UserInputType) =>
-  subtract(String(inputNumOne), String(inputNumTwo));
+export const sub = (numOne: UserInputType, numTwo: UserInputType) =>
+  subtract(normalize(String(numOne)), normalize(String(numTwo)));

@@ -1,17 +1,12 @@
 import { isZero, isNegative, isPositive } from '../core/validation';
 
-import { normalize, abs } from '../utils/helpers';
+import { abs } from '../utils/helpers';
 
 import { ltPositive } from '../core/comparison';
 
-export const eq = (numOne: string, numTwo: string) =>
-  normalize(numOne) === normalize(numTwo);
+export const eq = (numOne: string, numTwo: string) => numOne === numTwo;
 
-export const lt = (inputNumOne: string, inputNumTwo: string) => {
-  const numOne = normalize(inputNumOne);
-
-  const numTwo = normalize(inputNumTwo);
-
+export const lt = (numOne: string, numTwo: string) => {
   let isLt = false;
 
   if (isZero(numOne) && isZero(numTwo)) {
