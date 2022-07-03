@@ -53,17 +53,6 @@ describe('Add operation', () => {
     });
   });
 
-  describe('Add random numbers from array', () => {
-    it('Add hundred random numbers', () => {
-      const arr = Array.from(
-        { length: 100 },
-        () => `${parseInt(`${Math.random() * 1000000000000}`, 10)}`,
-      );
-
-      expect(addFromArray(arr)).to.equal(addToVerify(arr));
-    });
-  });
-
   describe('Add numbers from array', () => {
     it('Add 3 zeros should sum to 0', () => {
       const arr = ['0', '0', '0'];

@@ -65,41 +65,36 @@ describe('multiply operation', () => {
     });
   });
   describe('both positive numbers', () => {
-    let numOne = '0';
-    let numTwo = '0';
-
-    beforeEach(() => {
-      numOne = `${parseInt(`${Math.random() * 100000}`, 10)}`;
-      numTwo = `${parseInt(`${Math.random() * 1000}`, 10)}`;
-    });
-
-    afterEach(() => {
-      numOne = '0';
-      numTwo = '0';
-    });
-
     it('#1', () => {
-      expect(mul(numOne, numTwo)).to.equal(
-        (parseInt(numOne, 10) * parseInt(numTwo, 10)).toString(),
-      );
+      const numOne = '3245234523452345';
+      const numTwo = '23452345234523452345';
+      const sum = '76108360410998590108249817485999025';
+
+      expect(mul(numOne, numTwo)).to.equal(sum);
     });
 
     it('#2', () => {
-      expect(mul(numOne, numTwo)).to.equal(
-        (parseInt(numOne, 10) * parseInt(numTwo, 10)).toString(),
-      );
+      const numOne = '324523452345234523';
+      const numTwo = '34534534';
+      const sum = '11207266198813881372517282';
+
+      expect(mul(numOne, numTwo)).to.equal(sum);
     });
 
     it('#3', () => {
-      expect(mul(numOne, numTwo)).to.equal(
-        (parseInt(numOne, 10) * parseInt(numTwo, 10)).toString(),
-      );
+      const numOne = '234523452345';
+      const numTwo = '112300006787';
+      const sum = '26336985290054171065515';
+
+      expect(mul(numOne, numTwo)).to.equal(sum);
     });
 
     it('#4', () => {
-      expect(mul(numOne, numTwo)).to.equal(
-        (parseInt(numOne, 10) * parseInt(numTwo, 10)).toString(),
-      );
+      const numOne = '10000000000001';
+      const numTwo = '040502345';
+      const sum = '405023450000040502345';
+
+      expect(mul(numOne, numTwo)).to.equal(sum);
     });
   });
 
