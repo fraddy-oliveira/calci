@@ -59,23 +59,3 @@ export const add = (inputNumOne: string, inputNumTwo: string) => {
   // And absolute value of first number is greater than second number.
   return subPositive(abs(numOne), abs(numTwo), option);
 };
-
-/**
- *    @Name: addArray
- *    @Description: Add numbers from array.
- *    @params {array} numArr - list of numbers.
- *    @return addition of numbers.
- */
-export const addArray = (numArr: Array<string|number>): string => {
-  let ret = '0';
-
-  if (Array.isArray(numArr) && numArr.length > 0) {
-    ret = numArr[0] as string;
-
-    for (let i = 1; i < numArr.length; i += 1) {
-      ret = add(String(numArr[i]), ret);
-    }
-  }
-
-  return ret;
-};

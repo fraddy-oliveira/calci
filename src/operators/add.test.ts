@@ -1,8 +1,6 @@
 import { expect } from 'chai';
 
-import { add, addArray } from './add';
-
-import { addToVerify } from '../utils/helpers';
+import { add } from './add';
 
 describe('Add operation', () => {
   describe('Add two numbers', () => {
@@ -51,46 +49,6 @@ describe('Add operation', () => {
       const sum = add('0', '0');
 
       expect(sum).to.equal('0');
-    });
-  });
-
-  describe('Add numbers from array', () => {
-    it('Add 3 zeros should sum to 0', () => {
-      const arr = ['0', '0', '0'];
-
-      expect(addArray(arr)).to.equal(addToVerify(arr));
-    });
-
-    it('Sum should be 1243544687030932968237422435890746658808501', () => {
-      const arr = [
-        '1123123123123123453423213123213',
-        '1231231233245123342234523433331421322',
-        '1231231223453123342333332453245423451421322',
-        '12312232345453245345312312334233331421322',
-        '12312312312334233331421322',
-      ];
-
-      expect(addArray(arr)).to.equal(
-        '1243544687030932968237422435890746658808501',
-      );
-    });
-
-    it('Add three similar numbers should sum to 36', () => {
-      const arr = ['12', '12', '12'];
-
-      expect(addArray(arr)).to.equal('36');
-    });
-
-    it('Expect to get zero with empty array', () => {
-      expect(addArray([])).to.equal('0');
-    });
-
-    it('Expect to get zero with empty array elements', () => {
-      expect(addArray(['', '', ''])).to.equal('0');
-    });
-
-    it('Expect to throw Illegal number error', () => {
-      expect(() => addArray(['', '', undefined as unknown as string])).to.throw('Illegal number');
     });
   });
 });
