@@ -1,8 +1,8 @@
 import { ADDITION_UNIT } from '../core/defaults';
 
-import { normalize, toggleSign, abs } from '../utils/helpers';
+import { toggleSign, abs } from '../utils/helpers';
 
-import { lt } from './comparison';
+import { lt, gt } from './comparison';
 
 import { isNegative, isPositive } from '../core/validation';
 
@@ -17,53 +17,41 @@ import { addPositive, subPositive } from '../core/signedOperations';
  *    @params {string} inputNumTwo - number for addition.
  *    @return addition of numbers.
  */
-export const add = (inputNumOne: string, inputNumTwo: string) => {
-  let ret = '';
-
-  let numOne = inputNumOne;
-
-  let numTwo = inputNumTwo;
-
+export const add = (numOne: string, numTwo: string) => {
   const option: OperationOptionsStructure = { additionUnit: ADDITION_UNIT };
 
-  numOne = normalize(numOne);
-
-  numTwo = normalize(numTwo);
-
+  //  If both numbers are negative
   if (isNegative(numOne) && isNegative(numTwo)) {
-    ret = toggleSign(
+    return toggleSign(
       addPositive(toggleSign(numOne), toggleSign(numTwo), '0', option),
     );
-  } else if (isPositive(numOne) && isPositive(numTwo)) {
-    ret = addPositive(numOne, numTwo, '0', option);
-  } else if (isNegative(numOne)) {
-    ret = subPositive(abs(numOne), abs(numTwo), option);
-    if (!lt(abs(numOne), abs(numTwo))) {
+  }
+
+  // If both numbers are positive
+  if (isPositive(numOne) && isPositive(numTwo)) {
+    return addPositive(numOne, numTwo, '0', option);
+  }
+
+  // If first number is negative and second number is positive
+  if (isNegative(numOne)) {
+    let ret = subPositive(abs(numOne), abs(numTwo), option);
+
+    // Make result as negative if absolute value of first number
+    // is greater than second number
+    if (gt(abs(numOne), abs(numTwo))) {
       ret = toggleSign(ret);
     }
-  } else if (lt(abs(numOne), abs(numTwo))) {
-    ret = toggleSign(subPositive(abs(numOne), abs(numTwo), option));
-  } else {
-    ret = subPositive(abs(numOne), abs(numTwo), option);
+
+    return ret;
   }
 
-  return ret;
-};
-
-/**
- *    @Name: addArray
- *    @Description: Add numbers from array.
- *    @params {array} numArr - list of numbers.
- *    @return addition of numbers.
- */
-export const addArray = (numArr: Array<any>): string => {
-  let ret = '';
-  if (Array.isArray(numArr) && numArr.length > 0) {
-    [ret] = numArr;
-    for (let i = 1; i < numArr.length;) {
-      ret = add(String(numArr[i]), String(ret));
-      i += 1;
-    }
+  // If first number is positive and second number is negative.
+  // And absolute value of first number is less than second number.
+  if (lt(abs(numOne), abs(numTwo))) {
+    return toggleSign(subPositive(abs(numOne), abs(numTwo), option));
   }
-  return ret;
+
+  // If first number is positive and second number is negative.
+  // And absolute value of first number is greater than second number.
+  return subPositive(abs(numOne), abs(numTwo), option);
 };

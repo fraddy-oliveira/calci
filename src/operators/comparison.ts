@@ -1,29 +1,12 @@
 import { isZero, isNegative, isPositive } from '../core/validation';
 
-import { normalize, addLeftPadding, abs } from '../utils/helpers';
+import { abs } from '../utils/helpers';
 
-export const eq = (numOne: string, numTwo: string) =>
-  normalize(numOne) === normalize(numTwo);
+import { ltPositive } from '../core/comparison';
 
-const ltPositive = (numOne: string, numTwo: string) => {
-  if (isNegative(numOne) || isNegative(numTwo)) {
-    throw new Error(`Both operands must be positive: ${numOne} ${numTwo}`);
-  }
+export const eq = (numOne: string, numTwo: string) => numOne === numTwo;
 
-  const maxLength = Math.max(numOne.length, numTwo.length);
-
-  const lhs = addLeftPadding(numOne, maxLength - numOne.length);
-
-  const rhs = addLeftPadding(numTwo, maxLength - numTwo.length);
-
-  return lhs < rhs; // lexicographical comparison
-};
-
-export const lt = (inputNumOne: string, inputNumTwo: string) => {
-  const numOne = normalize(inputNumOne);
-
-  const numTwo = normalize(inputNumTwo);
-
+export const lt = (numOne: string, numTwo: string) => {
   let isLt = false;
 
   if (isZero(numOne) && isZero(numTwo)) {

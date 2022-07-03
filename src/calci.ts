@@ -1,29 +1,41 @@
-import * as comparison from './operators/comparison';
+import { lt as lessThan } from './operators/comparison';
 
-import * as addition from './operators/add';
+import { add as addition } from './operators/add';
 
-import * as multiply from './operators/mul';
+import { multiply } from './operators/multiply';
 
-import * as subtraction from './operators/sub';
+import { subtract } from './operators/subtract';
 
 import { UserInputType } from './interfaces/common';
 
-export const lt = (inputNumOne: UserInputType, inputNumTwo: UserInputType) =>
-  comparison.lt(String(inputNumOne), String(inputNumTwo));
+import { normalize } from './utils/helpers';
 
-export const add = (inputNumOne: UserInputType, inputNumTwo: UserInputType) =>
-  addition.add(String(inputNumOne), String(inputNumTwo));
+export const lt = (numOne: UserInputType, numTwo: UserInputType) =>
+  lessThan(normalize(String(numOne)), normalize(String(numTwo)));
 
-export const addFromArray = (array: Array<UserInputType>) => {
-  if (!Array.isArray(array)) {
+export const add = (numOne: UserInputType, numTwo: UserInputType) =>
+  addition(normalize(String(numOne)), normalize(String(numTwo)));
+
+export const addFromArray = (numArr: Array<UserInputType>): string => {
+  if (!Array.isArray(numArr)) {
     throw new Error('Input should be array.');
   }
 
-  return addition.addArray(array);
+  let ret = '0';
+
+  if (Array.isArray(numArr) && numArr.length > 0) {
+    ret = String(numArr[0]);
+
+    for (let i = 1; i < numArr.length; i += 1) {
+      ret = addition(String(numArr[i]), ret);
+    }
+  }
+
+  return ret;
 };
 
-export const mul = (inputNumOne: UserInputType, inputNumTwo: UserInputType) =>
-  multiply.mul(String(inputNumOne), String(inputNumTwo));
+export const mul = (numOne: UserInputType, numTwo: UserInputType) =>
+  multiply(normalize(String(numOne)), normalize(String(numTwo)));
 
-export const sub = (inputNumOne: UserInputType, inputNumTwo: UserInputType) =>
-  subtraction.sub(String(inputNumOne), String(inputNumTwo));
+export const sub = (numOne: UserInputType, numTwo: UserInputType) =>
+  subtract(normalize(String(numOne)), normalize(String(numTwo)));
